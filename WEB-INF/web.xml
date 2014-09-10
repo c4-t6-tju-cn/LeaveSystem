@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         version="2.4"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <!-- 覆盖default servlet的/, springmvc servlet将处理原来处理静态资源的映射 -->
+    <description>LeaveSystem</description>
+    <display-name>LeaveSystem</display-name>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:/config/applicationContext.xml</param-value>
+    </context-param>
+    
+    <!-- check 监听器 --> 
+    <filter>
+        <filter-name>userCheckFilter</filter-name>
+        <filter-class>cn.edu.tju.t6.c4.filter.UserCheckFilter</filter-class>
+    </filter>
+    <filter-mapping> 
+    	<filter-name>userCheckFilter</filter-name> 
+    	<url-pattern>/*</url-pattern> 
+	</filter-mapping> 
+    
+    <filter>
+        <filter-name>operatorCheckFilter</filter-name>
+        <filter-class>cn.edu.tju.t6.c4.filter.OperatorCheckFilter</filter-class>
+    </filter>
+    <filter-mapping> 
+    	<filter-name>operatorCheckFilter</filter-name> 
+    	<url-pattern>/*</url-pattern> 
+	</filter-mapping>
+    
+	<!-- Spring 监听器 --> 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>main</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    	<init-param>  
+        	<param-name>contextConfigLocation</param-name>  
+        	<param-value>classpath:/config/main-servlet.xml</param-value>  
+    	</init-param>        
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>main</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <!--
+         浏览器不支持put,delete等method,由该filter将xxx?_method=delete 或 xxx?_method=put 转换为标准的
+         http delete、put 方法
+     -->
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

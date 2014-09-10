@@ -1,0 +1,13 @@
+
+mysql> CREATE TABLE user (id bigint NOT NULL, name varchar(20) NOT NULL, pwd var
+char(20) NOT NULL, department varchar(20), totalLeaveDays int,  PRIMARY KEY (id)
+);
+
+mysql> CREATE TABLE record(id int AUTO_INCREMENT, leave_day int not null, apply_
+id bigint, approve_id bigint, apply_time varchar(10), approve_time varchar(10),
+state varchar(10), foreign key(apply_id) references user(id), foreign key(approv
+e_id) references user(id), primary key(id));
+
+mysql> insert user (id, name, pwd, department, totalLeaveDays) values(3011218145, 'wangjian', 'wangjian', 'employee', 10);
+
+mysql> insert record (apply_id, leave_day, apply_time, state) values(3011218145, 3 ,'2014-9-6', 'wait');

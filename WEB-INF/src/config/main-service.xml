@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/tx classpath:/org/springframework/transaction/config/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/context classpath:/org/springframework/context/config/spring-context-3.0.xsd
+    http://www.springframework.org/schema/aop classpath:/org/springframework/aop/config/spring-aop-3.0.xsd">
+    <!-- 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-${unitils.version}.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-${unitils.version}.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-${unitils.version}.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-${unitils.version}.xsd">
+     -->
+  
+  	<!-- 扫描cn.edu.tju.t6.c4.Service包下所有标注@Service的服务组件 -->
+    <context:component-scan base-package="cn.edu.tju.t6.c4.service"/>
+
+</beans>

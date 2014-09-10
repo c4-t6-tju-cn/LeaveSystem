@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<title>登录</title>
+	<link rel="stylesheet" id="buttons-css" href="lib/css/buttons.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="open-sans-css" href="lib/css/open-sans.css" type="text/css" media="all">
+<link rel="stylesheet" id="dashicons-css" href="lib/css/dashicons.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="login-css" href="lib/css/login.min.css" type="text/css" media="all">
+<meta name="robots" content="noindex,follow">
+	</head>
+	<body class="login login-action-login wp-core-ui  locale-zh-cn">
+	<div id="login">
+		<h1>请登录</h1>
+	
+<form name="loginform" id="loginform" action="services/auth/login.html" method="post">
+	<p>
+		<label for="username">用户名<br>
+		<input type="text" name="username" id="username" class="input" value="" size="20"></label>
+	</p>
+	<p>
+		<label for="userpass">密码<br>
+		<input type="password" name="password" id="userpass" class="input" value="" size="20"></label>
+	</p>
+	<!-- 
+	<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever"> 记住我的登录信息</label>
+	 -->
+	</p>
+	<p class="submit">
+		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="登录">
+		<!-- <input type="button" name="wp-register" id="wp-register" class="button button-primary button-large" value="注册"
+			onClick="loginform.action='services/auth/register.html';submit();"> -->
+		<input type="hidden" name="redirect_to" value="">
+		<input type="hidden" name="testcookie" value="1">
+	</p>
+	<p id="nav"><!-- 
+		<a href="#" title="注册">注册</a> | 
+		<a href="#" title="找回密码">找回密码</a> -->
+	</p>
+</form>
+
+	</div>
+
+	
+		<div class="clear"></div>
+	
+	
+	</body></html>
