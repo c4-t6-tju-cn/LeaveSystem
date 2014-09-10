@@ -17,7 +17,7 @@
     </filter>
     <filter-mapping> 
     	<filter-name>userCheckFilter</filter-name> 
-    	<url-pattern>/*</url-pattern> 
+    	<url-pattern>/services/*</url-pattern> 
 	</filter-mapping> 
     
     <filter>
@@ -26,7 +26,7 @@
     </filter>
     <filter-mapping> 
     	<filter-name>operatorCheckFilter</filter-name> 
-    	<url-pattern>/*</url-pattern> 
+    	<url-pattern>/services/*</url-pattern> 
 	</filter-mapping>
     
 	<!-- Spring 监听器 --> 
@@ -45,7 +45,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>main</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
     <!--
          浏览器不支持put,delete等method,由该filter将xxx?_method=delete 或 xxx?_method=put 转换为标准的
