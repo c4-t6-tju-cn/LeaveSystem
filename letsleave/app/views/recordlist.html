@@ -1,0 +1,13 @@
+<h3>Applicaton Record List</h3>
+<span>click the record ID to see further information</span>
+<ul class="records">
+  <li ng-repeat="record in records">
+    <div>
+		<a ng-href="#/view/record/{{record.id}}">
+			<span>{{record.id}}</span>&nbsp;
+			<span>{{record.applyID}}</span>&nbsp;
+			<span>{{record.applyTime}}</span>
+		</a>
+	</div>
+  </li>
+</ul>
