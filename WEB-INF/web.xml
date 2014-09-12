@@ -28,7 +28,6 @@
     	<filter-name>operatorCheckFilter</filter-name> 
     	<url-pattern>/services/*</url-pattern> 
 	</filter-mapping>
-    
 	<!-- Spring 监听器 --> 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

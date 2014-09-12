@@ -35,6 +35,7 @@ public class UserCheckFilter implements Filter{
 		else {
 			String user = request.getParameter("user");
 			String pwd = request.getParameter("pwd");
+			System.out.print(user + " " + pwd);
 			if(user == null || pwd == null){
 				checkFail(response);
 				return;
@@ -45,6 +46,7 @@ public class UserCheckFilter implements Filter{
 					httpRequest.getSession().setAttribute(CommonConst.CHECK_USER_ATTRIBUTE, Boolean.TRUE);
 					httpRequest.getSession().setAttribute("user", Long.parseLong(user));
 					httpRequest.getSession().setAttribute("department", userGet.getDepartment());
+					System.out.println("userGet.getDepartment()"+userGet.getDepartment());
 					chain.doFilter(request, response);
 				}
 			} catch (NumberFormatException | SQLException e) {

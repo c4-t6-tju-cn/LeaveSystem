@@ -2,6 +2,7 @@ CREATE TABLE user (
 	user_id BIGINT NOT NULL, 
 	user_name VARCHAR(20) NOT NULL, 
 	pwd VARCHAR(20) NOT NULL,
+	department_id  INT,
 	staff_position VARCHAR(10), 
 	total_annual_leave INT,
 	FOREIGN KEY (department_id) REFERENCES department(department_id),
@@ -40,9 +41,11 @@ CREATE TABLE approval(
 	PRIMARY KEY(approval_id)
 );
 
-insert user values(3011218160, 'zss', '6606709',  'manager', 360 )
-insert user values(3011218162, 'ztbxxt', '921121',  'manager', 360 )
-insert user values(9000218001, 'testuser1', '123',  'employee', 5)
-insert user values(3011218145, 'wangjian', 'wangjian', 'manager', 10);
+insert user values(3011218160, 'zss', '6606709',  1,'manager', 360 )
+insert user values(3011218162, 'ztbxxt', '921121',  2,'manager', 360 )
+insert user values(9000218001, 'testuser1', '123',  3,'employee', 5)
+insert user values(3011218145, 'wangjian', 'wangjian', 3,'manager', 10);
+
+insert department values(1,'ED','Executive Department');
 
 --持续更新

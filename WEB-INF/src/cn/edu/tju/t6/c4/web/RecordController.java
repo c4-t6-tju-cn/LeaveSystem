@@ -25,14 +25,16 @@ public class RecordController{
 	
 	@Autowired
 	RecordService recordService;
-	
-	@RequestMapping(method=RequestMethod.GET, value="/{applyID}")
+	/*map sequence:
+	 *	record/applyID/{applyID}/status/{status}/time/{time}
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/all/time/all")
 	public @ResponseBody List<Record> get(
 			@PathVariable String applyID) throws Exception{
 		return recordService.get(Long.parseLong(applyID));
 	}
 
-	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/time/{time}")
+	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/all/time/{time}")
 	public @ResponseBody List<Record> getAfter(
 			@PathVariable("applyID") String applyID, 
 			@PathVariable("time") String time) throws Exception {
@@ -44,27 +46,27 @@ public class RecordController{
 		return recordService.getAfter(Long.parseLong(applyID), date);
 	}
 
-	@RequestMapping(method=RequestMethod.GET, value="/state/{state}")
+	@RequestMapping(method=RequestMethod.GET, value="/applyID/all/status/{status}/time/all")
 	public @ResponseBody List<Record> getByState(
 			@PathVariable String state) throws Exception{
 		return recordService.getByState(state);
 	}
 
-	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/state/{state}")
+	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/{status}/time/all")
 	public @ResponseBody List<Record> getByState(
 			@PathVariable("applyID") String applyID, 
-			@PathVariable("state") String state) throws Exception{
+			@PathVariable("status") String state) throws Exception{
 		return recordService.getByState(Long.parseLong(applyID),state);
 	}
 
-	@RequestMapping(method=RequestMethod.DELETE, value="/applyID/{applyID}/recordID/{recordID}")
+	@RequestMapping(method=RequestMethod.DELETE, value="/{recordID}")
 	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable String recordID,
 					@PathVariable String applyID) throws Exception{
 		recordService.delete(Integer.parseInt(recordID),Long.parseLong(applyID));
 	}
 
-	@RequestMapping(method=RequestMethod.POST, value="/add/{applyID}")
+	@RequestMapping(method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public void post(@RequestBody String body,
 					@PathVariable String applyID) throws Exception{
@@ -74,7 +76,7 @@ public class RecordController{
 		recordService.add(record);
 	}
 
-	@RequestMapping(method=RequestMethod.POST, value="/update/{applyID}")
+	@RequestMapping(method=RequestMethod.POST, value="/{applyID}")
 	@ResponseStatus(HttpStatus.OK)
 	public void update(@RequestBody String body,
 					@PathVariable String applyID) throws Exception{

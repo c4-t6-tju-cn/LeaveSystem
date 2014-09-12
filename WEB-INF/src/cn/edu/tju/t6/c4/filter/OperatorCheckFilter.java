@@ -29,14 +29,15 @@ public class OperatorCheckFilter  implements Filter{
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String method = httpRequest.getMethod();
 		String url = httpRequest.getRequestURI();
-		String deparament = (String) httpRequest.getAttribute("deparament");
+		String deparament = (String) httpRequest.getSession().getAttribute("department");
+		System.out.println(deparament);
 		long userID;
-		if(httpRequest.getAttribute("user") == null)	userID = 0;
-		else	userID = (long)httpRequest.getAttribute("user");
-		if(CommonConst.DEPARATMENT_EMPLOYEE.equals(deparament)){
+		if(httpRequest.getSession().getAttribute("user") == null)	userID = 0;
+		else	userID = (long)httpRequest.getSession().getAttribute("user");
+		if(CommonConst.DEPARTMENT_EMPLOYEE.equals(deparament)){
 			// record----  0 < applyID length < 25 
-			if(url.contains("/record")){
-				String applyID = getFirstMatchSubstring(url.split("/record")[1],"\\d{1,25}");
+			if(url.contains("/record/")){
+				String applyID = getFirstMatchSubstring(url.split("/record/")[1],"\\d{1,25}");
 				if(applyID != null && userID == Long.parseLong(applyID)){
 					chain.doFilter(request, response);
 					return;
@@ -46,8 +47,9 @@ public class OperatorCheckFilter  implements Filter{
 			}
 			
 			// user----  0 < userID length < 25 
-			if(url.contains("/user") && !method.equalsIgnoreCase("DELETE")){
-				String user = getFirstMatchSubstring(url.split("/user")[1],"\\d{1,25}");
+			if(url.contains("/user/") && !method.equalsIgnoreCase("DELETE")){
+				String user = getFirstMatchSubstring(url.split("/user/")[1],"\\d{1,25}");
+				System.out.println("user "+ user+ "  "+ userID);
 				if(user != null && userID == Long.parseLong(user)){
 					chain.doFilter(request, response);
 					return;
@@ -55,10 +57,10 @@ public class OperatorCheckFilter  implements Filter{
 			}
 			checkFail(response, "Permission deny! User permission.");
 		}
-		else if(CommonConst.DEPARATMENT_ADMIN.equals(deparament) || CommonConst.DEPARATMENT_MANAGER.equals(deparament))
+		else if(CommonConst.DEPARTMENT_ADMIN.equals(deparament) || CommonConst.DEPARTMENT_MANAGER.equals(deparament))
 			chain.doFilter(request, response);
 		else
-			checkFail(response, "Deparament cann't recognized.");
+			checkFail(response, "Department cann't recognized.");
 	}
 	
 	private List<String> getMatchSubstring(String str, String pattern){

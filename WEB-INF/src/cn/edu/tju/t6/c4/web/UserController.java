@@ -44,7 +44,7 @@ public class UserController {
 		userService.add(user);
 	}
 
-	@RequestMapping(method=RequestMethod.POST, value="/update/{userID}")
+	@RequestMapping(method=RequestMethod.POST, value="/{userID}")
 	@ResponseStatus(HttpStatus.OK)
 	public void update(@RequestBody String userBody,
 					@PathVariable String userID)

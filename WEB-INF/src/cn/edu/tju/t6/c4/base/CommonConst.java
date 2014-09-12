@@ -12,11 +12,11 @@ public class CommonConst {
 
 	   public static final String STATE_SUCCESS = "success";
 	   
-	   public static final String DEPARATMENT_EMPLOYEE = "employee";
+	   public static final String DEPARTMENT_EMPLOYEE = "employee";
 	   
-	   public static final String DEPARATMENT_MANAGER = "manager";
+	   public static final String DEPARTMENT_MANAGER = "manager";
 	   
-	   public static final String DEPARATMENT_ADMIN = "admin";
+	   public static final String DEPARTMENT_ADMIN = "admin";
 	   
 	   public static final String CHECK_USER_ATTRIBUTE = "CHECK_USER_ATTRIBUTE";
 }
