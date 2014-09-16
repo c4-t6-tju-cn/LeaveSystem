@@ -29,12 +29,18 @@ public class OperatorCheckFilter  implements Filter{
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String method = httpRequest.getMethod();
 		String url = httpRequest.getRequestURI();
-		String deparament = (String) httpRequest.getSession().getAttribute("department");
-		System.out.println(deparament);
+		String position = (String) httpRequest.getSession().getAttribute("position");
 		long userID;
-		if(httpRequest.getSession().getAttribute("user") == null)	userID = 0;
-		else	userID = (long)httpRequest.getSession().getAttribute("user");
-		if(CommonConst.DEPARTMENT_EMPLOYEE.equals(deparament)){
+		if(httpRequest.getSession().getAttribute("user") == null)	{
+			userID = 0;
+			/*if(url.contains("/login") && method.equalsIgnoreCase("POST")){
+				response.getWriter().print("{}");
+			}*/
+		}
+		else{
+			userID = (long)httpRequest.getSession().getAttribute("user");
+		}
+		if(CommonConst.POSITION_EMPLOYEE.equalsIgnoreCase(position)){
 			// record----  0 < applyID length < 25 
 			if(url.contains("/record/")){
 				String applyID = getFirstMatchSubstring(url.split("/record/")[1],"\\d{1,25}");
@@ -55,9 +61,13 @@ public class OperatorCheckFilter  implements Filter{
 					return;
 				}
 			}
+			
 			checkFail(response, "Permission deny! User permission.");
 		}
-		else if(CommonConst.DEPARTMENT_ADMIN.equals(deparament) || CommonConst.DEPARTMENT_MANAGER.equals(deparament))
+		else if(CommonConst.POSITION_AD.equalsIgnoreCase(position) 
+				|| CommonConst.POSITION_DM.equalsIgnoreCase(position)
+				|| position.equalsIgnoreCase(CommonConst.POSITION_GM)
+				|| position.equalsIgnoreCase(CommonConst.POSITION_VM))
 			chain.doFilter(request, response);
 		else
 			checkFail(response, "Department cann't recognized.");
@@ -83,7 +93,7 @@ public class OperatorCheckFilter  implements Filter{
 
 	private void checkFail(ServletResponse response, String str) throws IOException{
 		PrintWriter out = response.getWriter();
-		out.write("<h1> "+str+" </h1>");
+		out.write("[{\"response\":\""+str+"\"}]");
 		out.flush();
 	}
 	

@@ -27,9 +27,9 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public boolean add(User user) throws SQLException{
-		if(user.getID() == 0)
+		if(user.getUser_id() == 0)
 			throw new SQLException("SQLException: cann't add user which user id is 0!");
-		if(user.getName() == null)
+		if(user.getUser_name() == null)
 			throw new SQLException("SQLException: cann't add user which user name is null!");
 		if(user.getPwd() == null)
 			throw new SQLException("SQLException: cann't add user which user pwd is empty!");
@@ -45,10 +45,10 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public boolean update(User user) throws SQLException{
-		if(user.getName() == null)
+		if(user.getUser_name() == null)
 			throw new SQLException("SQLException: user name cann't be null");
-		if(user.getID() == 0 ||!userDao.checkExist(user.getID()))
-			throw new SQLException("SQLException: no user which id ="+user.getID());
+		if(user.getUser_id() == 0 ||!userDao.checkExist(user.getUser_id()))
+			throw new SQLException("SQLException: no user which id ="+user.getUser_id());
 		return userDao.update(user);
 	}
 }

@@ -1,0 +1,31 @@
+<span>Login</span>
+
+<div>
+	<span>User:{{currentUser.name}}</span>
+</div>
+<br/>
+<div>
+	<span>Department:{{currentUser.position}}</span>
+</div>
+<br/>
+<form name="login_" ng-submit="login()" class="form-horizontal">
+	<div>
+		<span>
+			<label for="userid">ID:</label>
+			<input ng-model="currentUser.id" class="input-xlarge" id="userid" focus required />
+		</span>
+	</div>
+	<br/>
+	<div>
+		<span>
+			<label for="userpwd">Password:</label>
+			<input ng-model="currentUser.pwd" type="password" class="input-xlarge" id="userpwd"/>
+		</span>
+	</div>
+	<br/>
+	<br/>
+	<button>Change User</button>
+
+</form>
+
+

@@ -3,7 +3,7 @@
 var services = angular.module('leavesystem.services',
     ['ngResource']);
 
-	
+var services_map = '/LeaveSystem/services'
 /* User elements */
 services.factory(
 	'User', 
@@ -11,10 +11,12 @@ services.factory(
 		'$resource',
 		function($resource)
 		{
-			return $resource('/LeaveSystem/services/user/:id', {id: '@id'});
+			return $resource( services_map + '/user/:id', {id: '@id'});
 		}
 	]
 );
+
+
 
 services.factory(
 	'MultiUserLoader', 
@@ -77,7 +79,7 @@ services.factory(
 		function($resource)
 		{
 			return $resource(
-				'/LeaveSystem/services/record/applyID/:applyID/status/:status/time/:time', 
+				services_map + '/record/applyID/:applyID/status/:status/time/:time', 
 				{
 					applyID:'@applyID',
 					status:'@status',
@@ -93,6 +95,7 @@ services.factory(
 		}
 	]
 );
+
 
 services.factory(
 	'MultiRecordLoader', 
@@ -122,6 +125,45 @@ services.factory(
 					}
 				);
 				
+				return delay.promise;
+			};
+		}
+	]
+);
+
+services.factory(
+	'LoginUser', 
+	[
+		'$resource',
+		function($resource)
+		{
+			return $resource( services_map + '/login', {});
+		}
+	]
+);
+services.factory(
+	'LoginService', 
+	[
+		'LoginUser', '$route', '$q',
+		function(LoginUser, $route, $q){
+			return function()
+				{
+				var delay = $q.defer();
+				LoginUser.get(
+					{
+						user: $route.current.params.user,
+						pwd: $route.current.params.pwd,
+					}, 
+					function(currentUser){
+						//alert('x');
+						delay.resolve(currentUser);
+						
+					}, 
+					function(){
+						//alert('z');
+						delay.reject('Unable to fetch Records');
+					}
+				);
 				return delay.promise;
 			};
 		}

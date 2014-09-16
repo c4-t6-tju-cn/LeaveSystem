@@ -50,7 +50,7 @@ public class UserController {
 					@PathVariable String userID)
 			throws Exception{
 		User user = (new Gson()).fromJson(userBody, User.class);
-		if(user.getID()!=Long.parseLong(userID))
+		if(user.getUser_id()!=Long.parseLong(userID))
 			throw new Exception("Update Exception: update userID must be right!");
 		userService.update(user);
 	}

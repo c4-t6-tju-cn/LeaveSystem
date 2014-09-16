@@ -2,8 +2,8 @@
 <span>click the user name to see further information</span>
 <ul class="users">
   <li ng-repeat="user in users">
-    <div><a ng-href="#/view/user/{{user.id}}">
-			{{user.name}}
+    <div><a ng-href="#/view/user/{{user.user_id}}">
+			{{user.user_name}}&nbsp;{{user.department_abbr}}
 		</a></div>
   </li>
 </ul>

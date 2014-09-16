@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 var app = angular.module(
 			'leavesystem',
 			[
@@ -7,16 +9,42 @@ var app = angular.module(
 				'leavesystem.services'
 			]
 		);
-
+var currentUserG = {"id":"0","name":"not login","department":""};
+		
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
 		.when(
 			'/', 
 			{
-				redirectTo:'/users'
+				redirectTo:'/login'
 			}
 		)
-		
+		.when(
+			'/login',
+			{
+				controller:'LoginCtrl',
+				templateUrl:'views/loginView.html'
+			}
+		)
+		.when(
+			'/login/:user/:pwd',
+			{
+				controller:'ReLoginCtrl',
+				resolve:
+				{
+					currentUser:
+					[
+						'LoginService',
+						function(LoginService)
+						{
+							//alert('ctrl');
+							return LoginService();
+						}
+					]
+				},
+				templateUrl:'views/loginView.html'
+			}
+		)
 		.when(
 			'/users',
 			{
@@ -75,7 +103,6 @@ app.config(['$routeProvider', function($routeProvider) {
 				controller: 'UserViewCtrl',
 				resolve: {
 					user: ["UserLoader", function(UserLoader) {
-						
 						return UserLoader();
 					}]
 				},
@@ -90,15 +117,52 @@ app.config(['$routeProvider', function($routeProvider) {
 ]);
 
 app.controller(
+	'ReLoginCtrl',
+	[
+		'$scope',
+		'$location',
+		'currentUser',
+		function($scope,$location,currentUser){
+			if(currentUser.id == null){
+				currentUser.name = '*login failed*';
+			}
+			else{
+				currentUserG=currentUser;
+				$scope.currentUser = currentUser;
+				alert('User log in successful.')
+				$location.path('/records/applicant/' + currentUserG.id + '/status/all/time/all');
+			}
+			$scope.login = function(){
+				$location.path('/login/'+ currentUser.id + '/' + currentUser.pwd);
+			};
+		}
+	]
+)
+app.controller(
+	'LoginCtrl',
+	[
+		'$scope',
+		'$location',
+		function($scope,$location){
+			$scope.currentUser = currentUserG;
+			var currentUser = currentUserG;
+			$scope.login = function(){
+				$location.path('/login/'+ currentUser.id + '/' + currentUser.pwd);
+			};
+		}
+	]
+)
+app.controller(
 	'UserListCtrl', 
 	[
 		'$scope', 
 		'users',
 		function($scope, users) {
-			if( users[0]==null || users[0].name == null)
+			if( users.response!=null)
 				$scope.users = [];
 			else
 				$scope.users = users;
+			
 		}
 	]
 );

@@ -60,6 +60,7 @@ public class DBOperator {
 			if(conn == null || conn.isClosed())	conn = connection();
 			if(conn == null)	return null;
 			Statement statement = conn.createStatement();
+			System.out.print("sql>" + sql + "\n");
 			return statement.executeQuery(sql);
 		} catch (SQLException e) {
 			throw new SQLException("SQLException: "+sql+" NOT RIGHT!");
@@ -71,6 +72,7 @@ public class DBOperator {
 		if(conn == null)	return false;
 		try {
 			Statement statement = conn.createStatement();
+			System.out.print("sql>" + sql + "\n");
 			return statement.execute(sql);
 		} catch (SQLException e) {
 			throw new SQLException("SQLException: "+sql+" NOT RIGHT!");
@@ -82,7 +84,15 @@ public class DBOperator {
 			}
 		}
 	}
-
+	public String getItemResult(ResultSet rs, String item){
+		String result = null;
+		try{
+			result = rs.getString(item);
+		}catch (Exception e){
+			System.out.println("No this item : " + item);
+		}
+		return result;
+	}
 	public boolean close() throws SQLException{
 		try {
 			conn.close();

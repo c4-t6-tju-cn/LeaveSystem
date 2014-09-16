@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.google.gson.Gson;
 
 import cn.edu.tju.t6.c4.base.CommonConst;
-import cn.edu.tju.t6.c4.base.Record;
+import cn.edu.tju.t6.c4.base.Application;
 import cn.edu.tju.t6.c4.service.RecordService;
 
 @Controller
@@ -29,13 +29,13 @@ public class RecordController{
 	 *	record/applyID/{applyID}/status/{status}/time/{time}
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/all/time/all")
-	public @ResponseBody List<Record> get(
+	public @ResponseBody List<Application> get(
 			@PathVariable String applyID) throws Exception{
 		return recordService.get(Long.parseLong(applyID));
 	}
 
 	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/all/time/{time}")
-	public @ResponseBody List<Record> getAfter(
+	public @ResponseBody List<Application> getAfter(
 			@PathVariable("applyID") String applyID, 
 			@PathVariable("time") String time) throws Exception {
 		String times[] = time.split(CommonConst.TIME_SPLIT);
@@ -47,13 +47,13 @@ public class RecordController{
 	}
 
 	@RequestMapping(method=RequestMethod.GET, value="/applyID/all/status/{status}/time/all")
-	public @ResponseBody List<Record> getByState(
+	public @ResponseBody List<Application> getByState(
 			@PathVariable String state) throws Exception{
 		return recordService.getByState(state);
 	}
 
 	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/{status}/time/all")
-	public @ResponseBody List<Record> getByState(
+	public @ResponseBody List<Application> getByState(
 			@PathVariable("applyID") String applyID, 
 			@PathVariable("status") String state) throws Exception{
 		return recordService.getByState(Long.parseLong(applyID),state);
@@ -70,8 +70,8 @@ public class RecordController{
 	@ResponseStatus(HttpStatus.OK)
 	public void post(@RequestBody String body,
 					@PathVariable String applyID) throws Exception{
-		Record record = (new Gson()).fromJson(body, Record.class);
-		if(record.getApplyID()!=Long.parseLong(applyID))
+		Application record = (new Gson()).fromJson(body, Application.class);
+		if(record.getApplicant_id()!=Long.parseLong(applyID))
 			throw new Exception("Update Exception: add record permission deny!");
 		recordService.add(record);
 	}
@@ -80,8 +80,8 @@ public class RecordController{
 	@ResponseStatus(HttpStatus.OK)
 	public void update(@RequestBody String body,
 					@PathVariable String applyID) throws Exception{
-		Record record = (new Gson()).fromJson(body, Record.class);
-		if(record.getApplyID()!=Long.parseLong(applyID))
+		Application record = (new Gson()).fromJson(body, Application.class);
+		if(record.getApplicant_id()!=Long.parseLong(applyID))
 			throw new Exception("Update Exception: update record permission deny!");
 		recordService.update(record);
 	}
