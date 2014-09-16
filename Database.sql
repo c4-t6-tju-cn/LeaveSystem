@@ -1,3 +1,10 @@
+CREATE TABLE department(
+	department_id INT NOT NULL,
+	department_abbr VARCHAR(5),
+	department_name VARCHAR(30),
+	PRIMARY KEY (department_id)
+);
+
 CREATE TABLE user (
 	user_id BIGINT NOT NULL, 
 	user_name VARCHAR(20) NOT NULL, 
@@ -9,12 +16,7 @@ CREATE TABLE user (
 	PRIMARY KEY (user_id)
 );
 
-CREATE TABLE department(
-	department_id INT NOT NULL,
-	department_abbr VARCHAR(5),
-	department_name VARCHAR(30),
-	PRIMARY KEY (department_id)
-);
+
 
 CREATE TABLE application(
 	application_id INT AUTO_INCREMENT NOT NULL, 
