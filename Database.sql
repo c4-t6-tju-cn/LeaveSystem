@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 CREATE DATABASE leave_system;
 use leave_system;
 ALTER DATABASE leave_system DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+=======
+>>>>>>> origin/master
 CREATE TABLE department(
 	department_id INT NOT NULL,
 	department_abbr VARCHAR(5),
