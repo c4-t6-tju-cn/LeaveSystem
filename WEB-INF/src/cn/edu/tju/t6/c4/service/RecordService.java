@@ -8,7 +8,9 @@ import cn.edu.tju.t6.c4.base.Application;
 
 
 public interface RecordService {
-
+	
+	public Application getById(long applicationID) throws SQLException;
+	
 	public List<Application> get(long applyID) throws SQLException;
 	
 	public List<Application> getAfter(long applyID, Calendar time) throws SQLException;

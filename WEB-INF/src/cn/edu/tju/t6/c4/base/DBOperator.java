@@ -54,35 +54,43 @@ public class DBOperator {
 			throw new SQLException("SQL connection can't connect!");
 		}
 	}
-	
-	public ResultSet select(String sql) throws SQLException{
+	private String head(String sql){
+		String str = "sql @ [" + CommonConst.getCurrentTime() +  "]>\n" + sql + "\n\n";
+		return str;
+	}
+	public ResultSet select(String sql){
 		try {
 			if(conn == null || conn.isClosed())	conn = connection();
 			if(conn == null)	return null;
 			Statement statement = conn.createStatement();
-			System.out.print("sql>" + sql + "\n");
+			System.out.print(head(sql));
 			return statement.executeQuery(sql);
 		} catch (SQLException e) {
-			throw new SQLException("SQLException: "+sql+" NOT RIGHT!");
+			System.out.println("SQLException: "+sql+" NOT RIGHT!");
+			return null;
 		}
 	}
 	
-	public boolean add(String sql) throws SQLException{
-		Connection conn = connection();
-		if(conn == null)	return false;
+	public boolean add(String sql) {
 		try {
+			Connection conn = connection();
+		
+			if(conn == null)	return false;
+		
 			Statement statement = conn.createStatement();
-			System.out.print("sql>" + sql + "\n");
+			System.out.print(head(sql));
 			return statement.execute(sql);
 		} catch (SQLException e) {
-			throw new SQLException("SQLException: "+sql+" NOT RIGHT!");
+			System.out.println("SQLException: "+sql+" NOT RIGHT!");
+			//return null;
 		}finally{
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				throw new SQLException("SQL connection can't close!");
+				System.out.println("SQL connection can't close!");
 			}
 		}
+		return false;
 	}
 	public String getItemResult(ResultSet rs, String item){
 		String result = null;
@@ -98,8 +106,9 @@ public class DBOperator {
 			conn.close();
 			return true;
 		} catch (SQLException e) {
-			throw new SQLException("SQL connection can't close!");
+			System.out.println("SQL connection can't close!");
 		}
+		return false;
 	}
 	//same to add
 	public boolean update(String sql) throws SQLException{

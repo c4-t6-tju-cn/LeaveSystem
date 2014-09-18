@@ -1,3 +1,13 @@
+CREATE DATABASE leave_system;
+use leave_system;
+ALTER DATABASE leave_system DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE TABLE department(
+	department_id INT NOT NULL,
+	department_abbr VARCHAR(5),
+	department_name VARCHAR(30),
+	PRIMARY KEY (department_id)
+);
+
 CREATE TABLE user (
 	user_id BIGINT NOT NULL, 
 	user_name VARCHAR(20) NOT NULL, 
@@ -9,12 +19,7 @@ CREATE TABLE user (
 	PRIMARY KEY (user_id)
 );
 
-CREATE TABLE department(
-	department_id INT NOT NULL,
-	department_abbr VARCHAR(5),
-	department_name VARCHAR(30),
-	PRIMARY KEY (department_id)
-);
+
 
 CREATE TABLE application(
 	application_id INT AUTO_INCREMENT NOT NULL, 
@@ -61,4 +66,5 @@ insert application (application_id, applicant_id, leave_date, leave_length, leav
 insert application values(2,3011218145,'2014-9-17', 2, 'shenghaizi','maternity','2014-9-5', 'wait');
 insert application values(3,3011218145,'2014-10-17', 15, 'jiehun','marital','2014-9-10', 'wait');
 insert application ( applicant_id, leave_date, leave_length, leave_reason, leave_type, apply_date, status)values(3011218145,'2014-10-17', 15, 'jiehun','marital','2014-9-10', 'wait');
+
 --持续更新

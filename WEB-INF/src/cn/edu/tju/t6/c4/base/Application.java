@@ -22,12 +22,19 @@ public class Application implements Serializable{
 	protected int leave_length;
 	protected String leave_reason;
 	protected String leave_type;
-	@OneToMany(cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
-	@JoinColumn(name = "application_id")	
 	protected List<Approval> approvals;
 	protected String apply_date;
 	protected String status;
-
+	protected User applicant;
+	
+	public User getApplicant(){
+		return applicant;
+	}
+	
+	public void setApplicant(User applicant){
+		this.applicant = applicant;
+	}
+	
 	public int getApplication_id() {
 		return application_id;
 	}

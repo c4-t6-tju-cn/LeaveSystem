@@ -1,12 +1,15 @@
 package cn.edu.tju.t6.c4.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.edu.tju.t6.c4.base.Department;
 import cn.edu.tju.t6.c4.base.User;
+import cn.edu.tju.t6.c4.dao.DepartmentDao;
 import cn.edu.tju.t6.c4.dao.UserDao;
 
 @Service
@@ -50,5 +53,23 @@ public class UserServiceImpl implements UserService{
 		if(user.getUser_id() == 0 ||!userDao.checkExist(user.getUser_id()))
 			throw new SQLException("SQLException: no user which id ="+user.getUser_id());
 		return userDao.update(user);
+	}
+
+	@Override
+	public List<Department> getDepartments() {
+		// TODO Auto-generated method stub
+		DepartmentDao dd = new DepartmentDao();
+		ArrayList<Department> deps = dd.getDepartments();
+		for(int i = 0 ; i < deps.size(); i ++){
+			Department d = deps.get(i);
+			try {
+				User manager = userDao.getDepartmentManager(d.getDepartment_id());
+				d.setDepartment_manager(manager);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return deps;
 	}
 }

@@ -33,15 +33,20 @@ public class UserController {
 	@RequestMapping(method=RequestMethod.GET, value="/{userID}")
 	public @ResponseBody User get(@PathVariable String userID) 
 			throws Exception{
-		return userService.get(Long.parseLong(userID));
+		User u =  userService.get(Long.parseLong(userID));
+		System.out.println(u.getUser_name());
+		return u;
 	}
 
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST, value="/")
 	@ResponseStatus(HttpStatus.OK)
 	public void add(@RequestBody String userBody)
 			throws Exception{
 		User user = (new Gson()).fromJson(userBody, User.class);
-		userService.add(user);
+		if(userService.get(user.getUser_id())!=null)
+			userService.update(user);
+		else
+			userService.add(user);
 	}
 
 	@RequestMapping(method=RequestMethod.POST, value="/{userID}")
@@ -50,9 +55,11 @@ public class UserController {
 					@PathVariable String userID)
 			throws Exception{
 		User user = (new Gson()).fromJson(userBody, User.class);
-		if(user.getUser_id()!=Long.parseLong(userID))
-			throw new Exception("Update Exception: update userID must be right!");
-		userService.update(user);
+		System.out.println("@ post /{userID} method  id :" + userID);
+		if(userService.get(user.getUser_id())!=null)
+			userService.update(user);
+		else
+			userService.add(user);
 	}
 
 	@RequestMapping(method=RequestMethod.DELETE, value="/{userID}")

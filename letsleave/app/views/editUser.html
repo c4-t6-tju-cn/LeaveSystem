@@ -1,0 +1,45 @@
+<h2>Edit User</h2>
+<form name="userForm" ng-submit="save()" class="form-horizontal">
+
+  <div class="control-group">
+    <div><span>ID:&nbsp;</span>{{user.user_id}}</div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="username">name:</label>
+    <div class="controls">
+      <input ng-model="user.user_name" class="input-xxlarge" id="username"></input>
+    </div>
+  </div>
+<div class="control-group">
+    <label class="control-label" for="userpwd">password:</label>
+    <div class="controls">
+      <input ng-model="user.pwd" class="input-xxlarge" id="userpwd"></input>
+    </div>
+  </div>
+   <div class="control-group">
+    <label class="control-label" for="userdep">department:</label>
+    <div class="controls">
+	  <select ng-model="user.department_id" ng-options="d.department_id as d.department_name for d in departments" id="userdep">
+	    <option value="">--select--</option>
+	  </select>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="userpos">position:</label>
+    <div class="controls">
+	  <select ng-model="user.staff_position" ng-options="m.value as m.value for m in positionSelect" id="userpos">
+	    <option value="">--select--</option>
+	  </select>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="useral">annual leave:</label>
+    <div class="controls">
+      <input ng-model="user.total_annual_leave" class="input-xxlarge" id="useral"></input>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button class="btn btn-primary" >Save</button>
+    <button type="button" ng-click="remove()" ng-show="user.user_id" class="btn">Delete</button>
+  </div>
+</form>

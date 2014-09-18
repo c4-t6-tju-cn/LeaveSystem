@@ -26,12 +26,16 @@ public class UserDao {
 	private final String ADD_USER = "INSERT user (user_id, user_name, pwd, department_id, staff_position, total_annual_leave) " +
 									"values (%d, '%s', '%s', %s, %s, %d);";
 	
-	private final String UPDATE_USER = "UPDATE user SET %s=%s " +
+	private final String UPDATE_USER = "UPDATE user SET %s='%s' " +
 									"WHERE user_id = %d;";
 	
 	private final String UPDATE_USER_BY_ANNUALLEAVE = "UPDATE user SET total_annual_leave=%d where user_id=%d;";
 	
 	private final String SELECT_PWD = "select pwd from user where user_id=%d;";
+	
+	private final String SELECT_DEPARTMENT_MANAGER = 
+			"select U.user_id, U.user_name, U.department_id,  U.total_annual_leave, U.staff_position"
+			+ " from user U where U.department_id='%d' and U.staff_position='manager';";
 	
 	public boolean checkExist(long id) 
 			throws SQLException{
@@ -55,6 +59,8 @@ public class UserDao {
 		return selectBySQL(LIST_ALL_USER);
 	}
 	
+	
+	
 	public boolean add(User user) 
 			throws SQLException{
 		return dbOperator.add(String.format(ADD_USER, 
@@ -76,7 +82,7 @@ public class UserDao {
 			dbOperator.update(String.format(UPDATE_USER,"department_id",user.getDepartment_id(),user.getUser_id()));
 		}
 		if(user.getStaff_position()!=null&& user.getStaff_position()!=""){
-			dbOperator.update(String.format(UPDATE_USER,"staff_position",user.getDepartment_id(),user.getUser_id()));
+			dbOperator.update(String.format(UPDATE_USER,"staff_position",user.getStaff_position(),user.getUser_id()));
 		}
 		if(user.getPwd()!=null&&user.getPwd()!=""){
 			dbOperator.update(String.format(UPDATE_USER,"pwd",user.getPwd(),user.getUser_id()));
@@ -130,6 +136,15 @@ public class UserDao {
 			pwd=rs.getString("pwd");
 		}
 		return pwd;
+	}
+	
+	public User getDepartmentManager(int dep_id) throws SQLException{
+		ResultSet rs = dbOperator.select(String.format(SELECT_DEPARTMENT_MANAGER,dep_id));
+		//String pwd=pwdi+"";
+		if(rs.next()){
+			return setInfoToCreateUser(rs);
+		}
+		return null;
 	}
 
 	public static void main(String args[]) throws SQLException{

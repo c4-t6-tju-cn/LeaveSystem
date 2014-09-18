@@ -48,9 +48,14 @@ public class ApplicationDao {
 		return selectBySQL(String.format(GET_RECORD_BY_APPLYID_AND_STATE, applyID, state));
 	}
 	
-	public Application getRecordByID(int id) 
+	public Application getRecordByID(long id) 
 			throws SQLException{
-		return selectBySQL(String.format(GET_RECORD_BY_ID, id)).get(0);
+		ArrayList<Application> apps = (ArrayList<Application>) selectBySQL(String.format(GET_RECORD_BY_ID, id));
+		if (apps.size() > 0){
+			Application app = apps.get(0);
+			return app;
+		}
+		else return null;
 	}
 	
 	public boolean deleteRecordByID(long id) 

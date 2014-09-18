@@ -27,6 +27,7 @@ public class OperatorCheckFilter  implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		response.setCharacterEncoding("UTF-8");  
 		String method = httpRequest.getMethod();
 		String url = httpRequest.getRequestURI();
 		String position = (String) httpRequest.getSession().getAttribute("position");
@@ -99,6 +100,7 @@ public class OperatorCheckFilter  implements Filter{
 	
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
+		
 	}
 
 	public static void main(String args[]){

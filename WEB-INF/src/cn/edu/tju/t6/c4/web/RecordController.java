@@ -1,5 +1,6 @@
 package cn.edu.tju.t6.c4.web;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -28,6 +29,12 @@ public class RecordController{
 	/*map sequence:
 	 *	record/applyID/{applyID}/status/{status}/time/{time}
 	 */
+	
+	@RequestMapping(method=RequestMethod.GET, value="/{id}")
+	public @ResponseBody Application getById(@PathVariable String id) throws NumberFormatException, SQLException{
+		return recordService.getById(Long.parseLong(id));
+	}
+	
 	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/all/time/all")
 	public @ResponseBody List<Application> get(
 			@PathVariable String applyID) throws Exception{

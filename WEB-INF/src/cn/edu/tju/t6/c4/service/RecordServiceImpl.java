@@ -8,18 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+
+
+import cn.edu.tju.t6.c4.base.Approval;
 import cn.edu.tju.t6.c4.base.CommonConst;
 import cn.edu.tju.t6.c4.base.Application;
 import cn.edu.tju.t6.c4.dao.ApplicationDao;
+import cn.edu.tju.t6.c4.dao.ApprovalDao;
 import cn.edu.tju.t6.c4.dao.UserDao;
 
 @Service
 public class RecordServiceImpl implements RecordService{
-
 	@Autowired
 	ApplicationDao recordDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	ApprovalDao approvalDao;
+	
 	
 	@Override
 	public List<Application> get(long applyID) 
@@ -70,10 +76,8 @@ public class RecordServiceImpl implements RecordService{
 	@Override
 	public boolean update(Application record) 
 			throws SQLException {
-		if(record.getApplication_id() == 0)
-			throw new SQLException("SQLException: recordID cann't be 0 or empty!");
-		if(record.getLeave_length() == 0)
-			throw new SQLException("SQLException: leaveDays cann't be 0 or empty!");
+		if(record.getLeave_length() <= 0)
+			throw new SQLException("SQLException: leaveDays can't be 0 or empty!");
 		if(!recordDao.checkExist(record.getApplication_id()))
 			throw new SQLException("SQLException: no record which id ="+record.getApplication_id());
 		return recordDao.updateRecord(record);
@@ -83,7 +87,7 @@ public class RecordServiceImpl implements RecordService{
 	public boolean add(Application record) 
 			throws SQLException {
 		if(record.getLeave_length() == 0)
-			throw new SQLException("SQLException: leaveDays cann't be 0 or empty!");
+			throw new SQLException("SQLException: leaveDays can't be 0 or empty!");
 		//get history leave record after this year
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 1, 1);
@@ -106,4 +110,11 @@ public class RecordServiceImpl implements RecordService{
 		return recordDao.addRecord(record);
 	}
 
+	public Application getById(long applicationID) throws SQLException{
+		Application appl = recordDao.getRecordByID(applicationID);
+		List<Approval> apprs = approvalDao.getApprovalsByApplication(applicationID);
+		if(apprs != null);
+			appl.setApprovals(apprs);
+		return appl;
+	}
 }

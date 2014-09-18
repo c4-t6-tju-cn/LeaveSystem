@@ -3,10 +3,9 @@
 <ul class="records">
   <li ng-repeat="record in records">
     <div>
-		<a ng-href="#/view/record/{{record.id}}">
-			<span>{{record.id}}</span>&nbsp;
-			<span>{{record.applyID}}</span>&nbsp;
-			<span>{{record.applyTime}}</span>
+		<a ng-href="#/view/record/{{record.application_id}}">
+			<span>{{record.applicant_id}}</span>&nbsp;
+			<span>{{record.apply_date}}</span>
 		</a>
 	</div>
   </li>

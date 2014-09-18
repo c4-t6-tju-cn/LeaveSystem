@@ -3,6 +3,7 @@ package cn.edu.tju.t6.c4.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import cn.edu.tju.t6.c4.base.Department;
 import cn.edu.tju.t6.c4.base.User;
 
 public interface UserService {
@@ -16,4 +17,6 @@ public interface UserService {
 	public boolean delete(long id) throws SQLException;
 	
 	public boolean update(User user) throws SQLException;
+	
+	public List<Department>  getDepartments() ;
 }

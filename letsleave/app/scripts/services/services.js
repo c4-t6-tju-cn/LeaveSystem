@@ -11,12 +11,111 @@ services.factory(
 		'$resource',
 		function($resource)
 		{
-			return $resource( services_map + '/user/:id', {id: '@id'});
+			return $resource( services_map + '/user/:userID', {userID: '@user_id'});
 		}
 	]
 );
 
+services.factory(
+	'Department', 
+	[
+		'$resource',
+		function($resource)
+		{
+			return $resource( services_map + '/department/:departmentId', {userID: '@department_id'});
+		}
+	]
+);
+services.factory(
+	'MultiDepartmentLoader', 
+	[
+		'Department', '$q',
+		function(Department, $q, $location) 
+		{
+			return function() 
+			{
+				var delay = $q.defer();
+				Department.query(
+					function(Deps) 
+					{
+						delay.resolve(Deps);
+					}, 
+					function() 
+					{
+						$location.path("/500");
+						delay.reject('Unable to fetch Users');
+					}
+				);
+				return delay.promise;
+			};
+		}
+	]
+);
+services.factory(
+	'ApplicationRecordQueryList', 
+	[
+		'$resource',
+		function($resource)
+		{
+			return $resource(
+				services_map + '/record/applyID/:applyID/status/:status/time/:time', 
+				{
+					applyID:'@applyID',
+					status:'@status',
+					time:'@time'
+				},
+				{
+					'get':{	
+						method:'GET',
+						isArray:true
+					}
+				}
+			);
+		}
+	]
+);
 
+services.factory(
+	'application',
+	[
+		'$resource',
+		function($resource){
+			return $resource(
+				services_map + '/record/:application_id',
+				{
+					application_id:'@application_id'
+				}
+			);
+		
+		}
+	]
+);
+
+services.factory(
+	'ApplicationLoader',
+	[
+		'Application', '$route', '$q',
+		function(Application, $route, $q){
+			return function()
+			{
+				var delay = $q.defer();
+				Application.get(
+					{application_id:$route.current.params.application_id},
+					function(Application) 
+					{
+						delay.resolve(Application);
+					}, 
+					function() 
+					{
+					
+						delay.reject('Unable to fetch Application');
+					}
+				);
+				return delay.promise;
+			}
+		}
+	]
+)
 
 services.factory(
 	'MultiUserLoader', 
@@ -53,7 +152,7 @@ services.factory(
 			{
 				var delay = $q.defer();
 				User.get(
-					{id: $route.current.params.UserId}, 
+					{userID: $route.current.params.UserId}, 
 					function(User) 
 					{
 						//alert($route.current.params.userId);
@@ -72,36 +171,14 @@ services.factory(
 
 /*	Application record elements */
 
-services.factory(
-	'ApplicationRecordQueryList', 
-	[
-		'$resource',
-		function($resource)
-		{
-			return $resource(
-				services_map + '/record/applyID/:applyID/status/:status/time/:time', 
-				{
-					applyID:'@applyID',
-					status:'@status',
-					time:'@time'
-				},
-				{
-					'get':{	
-						method:'GET',
-						isArray:true
-					}
-				}
-			);
-		}
-	]
-);
+
 
 
 services.factory(
 	'MultiRecordLoader', 
 	[
-		'ApplicationRecordQueryList', '$route', '$q',
-		function(ApplicationRecordQueryList, $route, $q) 
+		'ApplicationRecordQueryList', '$route', '$q','$location',
+		function(ApplicationRecordQueryList, $route, $q, $location) 
 		{
 			return function() 
 			{
@@ -120,8 +197,9 @@ services.factory(
 					}, 
 					function() 
 					{
-						//alert('z');
+						
 						delay.reject('Unable to fetch Records');
+						$location.path("/500");
 					}
 				);
 				
@@ -144,8 +222,8 @@ services.factory(
 services.factory(
 	'LoginService', 
 	[
-		'LoginUser', '$route', '$q',
-		function(LoginUser, $route, $q){
+		'LoginUser', '$route', '$q','$location',
+		function(LoginUser, $route, $q, $location){
 			return function()
 				{
 				var delay = $q.defer();
@@ -161,7 +239,9 @@ services.factory(
 					}, 
 					function(){
 						//alert('z');
+						
 						delay.reject('Unable to fetch Records');
+						$location.path("/500");
 					}
 				);
 				return delay.promise;

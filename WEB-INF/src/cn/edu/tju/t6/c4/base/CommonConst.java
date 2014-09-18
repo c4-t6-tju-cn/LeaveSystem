@@ -37,4 +37,14 @@ public class CommonConst {
 		   String date = y + TIME_SPLIT + m + TIME_SPLIT + d;
 		   return date;
 	   }
+	   
+	   public static String getCurrentTime(){
+		   int h,m,s;    
+		   Calendar cal=Calendar.getInstance();    
+		   h=cal.get(Calendar.HOUR);    
+		   m=cal.get(Calendar.MINUTE);    
+		   s=cal.get(Calendar.SECOND);
+		   String time = h + ":" + m + ":" + s;
+		   return getCurrentDate() + "/" + time;
+	   }
 }

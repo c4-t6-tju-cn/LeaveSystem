@@ -9,7 +9,7 @@ public class User implements Serializable{
 	 */
 	private static final long serialVersionUID = 10L;
 	
-	protected Long user_id;
+	protected long user_id;
 	protected String user_name;
 	protected int department_id;
 	protected String staff_position;
@@ -34,10 +34,10 @@ public class User implements Serializable{
 		this.department_abbr = department_abbr;
 	}
 	
-	public Long getUser_id() {
+	public long getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(Long user_id) {
+	public void setUser_id(long user_id) {
 		this.user_id = user_id;
 	}
 	
