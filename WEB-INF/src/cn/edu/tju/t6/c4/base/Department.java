@@ -6,7 +6,7 @@ public class Department implements Serializable{
 	private int department_id;
 	private String department_name;
 	private User department_manager;
-	
+	private static final long serialVersionUID = 1L;
 	public void setDepartment_id(int id){
 		department_id = id;
 	}

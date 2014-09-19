@@ -111,12 +111,12 @@ public class DBOperator {
 		return false;
 	}
 	//same to add
-	public boolean update(String sql) throws SQLException{
+	public boolean update(String sql){
 		return add(sql);
 	}
 
 	//same to add
-	public boolean delete(String sql) throws SQLException{
+	public boolean delete(String sql) {
 		return add(sql);
 	}
 }

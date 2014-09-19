@@ -1,0 +1,20 @@
+<h2><span>ID:&nbsp;</span>{{application.application_id}}</h2>
+<div><span>Applicant:&nbsp;</span>{{application.applicant.user_name}} <br/>({{application.applicant_id}})</div>
+<div><span>Department:&nbsp;{{application.applicant.department_name}}</span></div>
+<div><span>Position:&nbsp;{{application.applicant.staff_position}}</span></div>
+<div><span>Submit time&nbsp;{{application.apply_date}}</span></div>
+<div>
+	<h3>Leave Infomation</h3>
+	<div><span>Type:&nbsp;{{application.leave_type}}</span></div>
+	<div><span>Reason:&nbsp;{{application.leave_reason}}</span></div>
+	<div><span>From:&nbsp;{{application.leave_date}}</span></div>
+	<div><span>Length:&nbsp;{{application.leave_length}}</span></div>
+<div>
+
+<div>Approval status:&nbsp;{{application.status}}</div>
+
+<form ng-submit="edit()" class="form-horizontal">
+  <div class="form-actions">
+    <button class="btn btn-primary">Edit</button>
+  </div>
+</form>

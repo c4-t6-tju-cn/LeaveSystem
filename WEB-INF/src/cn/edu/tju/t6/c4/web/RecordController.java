@@ -4,15 +4,19 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
 
@@ -21,6 +25,7 @@ import cn.edu.tju.t6.c4.base.Application;
 import cn.edu.tju.t6.c4.service.RecordService;
 
 @Controller
+@SessionAttributes("user")
 @RequestMapping(value="/record")
 public class RecordController{
 	
@@ -68,28 +73,26 @@ public class RecordController{
 
 	@RequestMapping(method=RequestMethod.DELETE, value="/{recordID}")
 	@ResponseStatus(HttpStatus.OK)
-	public void delete(@PathVariable String recordID,
-					@PathVariable String applyID) throws Exception{
-		recordService.delete(Integer.parseInt(recordID),Long.parseLong(applyID));
+	public void delete(@PathVariable String recordID) throws Exception{
+		recordService.delete(Integer.parseInt(recordID));
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public void post(@RequestBody String body,
-					@PathVariable String applyID) throws Exception{
+					@ModelAttribute("user") long id ) throws Exception{
 		Application record = (new Gson()).fromJson(body, Application.class);
-		if(record.getApplicant_id()!=Long.parseLong(applyID))
-			throw new Exception("Update Exception: add record permission deny!");
-		recordService.add(record);
+		record.setApplicant_id(id);
+		record.setStatus(CommonConst.STATE_WAITMANAGER);
+		
+		recordService.add(record, id);
 	}
 
-	@RequestMapping(method=RequestMethod.POST, value="/{applyID}")
+	@RequestMapping(method=RequestMethod.POST, value="/{ID}")
 	@ResponseStatus(HttpStatus.OK)
 	public void update(@RequestBody String body,
-					@PathVariable String applyID) throws Exception{
+					@PathVariable String ID) throws Exception{
 		Application record = (new Gson()).fromJson(body, Application.class);
-		if(record.getApplicant_id()!=Long.parseLong(applyID))
-			throw new Exception("Update Exception: update record permission deny!");
 		recordService.update(record);
 	}
 

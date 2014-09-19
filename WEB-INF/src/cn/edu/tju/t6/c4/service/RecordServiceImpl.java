@@ -10,11 +10,17 @@ import org.springframework.stereotype.Service;
 
 
 
+
+
+
 import cn.edu.tju.t6.c4.base.Approval;
 import cn.edu.tju.t6.c4.base.CommonConst;
 import cn.edu.tju.t6.c4.base.Application;
+import cn.edu.tju.t6.c4.base.Department;
+import cn.edu.tju.t6.c4.base.User;
 import cn.edu.tju.t6.c4.dao.ApplicationDao;
 import cn.edu.tju.t6.c4.dao.ApprovalDao;
+import cn.edu.tju.t6.c4.dao.DepartmentDao;
 import cn.edu.tju.t6.c4.dao.UserDao;
 
 @Service
@@ -25,17 +31,17 @@ public class RecordServiceImpl implements RecordService{
 	UserDao userDao;
 	@Autowired
 	ApprovalDao approvalDao;
-	
+	@Autowired
+	DepartmentDao departmentDao;
 	
 	@Override
-	public List<Application> get(long applyID) 
-			throws SQLException {
+	public List<Application> get(long applyID){
 		return recordDao.getRecordByApplyID(applyID);
 	}
 
 	@Override
 	public List<Application> getAfter(long applyID, Calendar time) 
-			throws SQLException {
+			{
 		List<Application> list = get(applyID);
 		for(int i = 0 ; i < list.size() ; i++){
 			Application record = list.get(i);
@@ -63,13 +69,9 @@ public class RecordServiceImpl implements RecordService{
 	}
 
 	@Override
-	public boolean delete(int recordID,long applyID) 
-			throws SQLException {
+	public boolean delete(int recordID) {
 		if(!recordDao.checkExist(recordID))
-			throw new SQLException("SQLException: no record which id ="+recordID);
-		Application record = recordDao.getRecordByID(recordID);
-		if(record.getApplicant_id()!=applyID)
-			throw new SQLException("SQLExcetion: this record is not belong to "+applyID);
+			System.out.println("SQLException: no record which id ="+recordID);
 		return recordDao.deleteRecordByID(recordID);
 	}
 
@@ -84,10 +86,10 @@ public class RecordServiceImpl implements RecordService{
 	}
 
 	@Override
-	public boolean add(Application record) 
-			throws SQLException {
+	public boolean add(Application record, long applicant_id) 
+			{
 		if(record.getLeave_length() == 0)
-			throw new SQLException("SQLException: leaveDays can't be 0 or empty!");
+			System.out.println("SQLException: leaveDays can't be 0 or empty!");
 		//get history leave record after this year
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 1, 1);
@@ -102,19 +104,28 @@ public class RecordServiceImpl implements RecordService{
 		int totalLeaveDays = userDao.get(record.getApplicant_id()).getTotal_annual_leave();
 		int restLeaveDays = totalLeaveDays - totalLeftDays;
 		
+		
 		//compare and get response
-		if(record.getLeave_length() > restLeaveDays)
-			throw new SQLException("rest leave day("+restLeaveDays+" day) not enough : \n" +
+		if(record.getLeave_length() > restLeaveDays){
+			System.out.println("Error when apply: rest leave day("+restLeaveDays+" day) not enough : \n" +
 					"total of left days and wait apply leave days is "+totalLeftDays + "\n" +
 					"total leave days is "+totalLeaveDays);
+			return false;
+		}
+		record.setApplicant_id(applicant_id);
+		record.setStatus(CommonConst.STATE_WAITMANAGER);
+		record.setApply_date(CommonConst.getCurrentDate());
 		return recordDao.addRecord(record);
 	}
 
 	public Application getById(long applicationID) throws SQLException{
 		Application appl = recordDao.getRecordByID(applicationID);
 		List<Approval> apprs = approvalDao.getApprovalsByApplication(applicationID);
+		User applicant = userDao.get(appl.getApplicant_id());
+		appl.setApplicant(applicant);
 		if(apprs != null);
 			appl.setApprovals(apprs);
+		
 		return appl;
 	}
 }

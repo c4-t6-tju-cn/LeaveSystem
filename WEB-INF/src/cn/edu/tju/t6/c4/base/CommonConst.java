@@ -32,7 +32,7 @@ public class CommonConst {
 		   int y,m,d;    
 		   Calendar cal=Calendar.getInstance();    
 		   y=cal.get(Calendar.YEAR);    
-		   m=cal.get(Calendar.MONTH);    
+		   m=cal.get(Calendar.MONTH)+1;    
 		   d=cal.get(Calendar.DATE);
 		   String date = y + TIME_SPLIT + m + TIME_SPLIT + d;
 		   return date;
