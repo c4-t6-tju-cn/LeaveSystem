@@ -45,14 +45,13 @@ public class UserDao {
 	
 	
 	
-	public User get(long id){
+	public User get(long id) 
+			throws SQLException{
 		List<User> list = selectBySQL(String.format(SELETC_USER_BY_ID, id));
 		if(list.size() == 0)	return null;
 		else if(list.size() == 1)	return list.get(0);
-		else{
-			System.out.println("multi user by "+id);
-		}
-		return null;
+		else
+			throw new SQLException("multi user by "+id);
 	}
 	
 	public List<User> getAll() 
@@ -102,7 +101,7 @@ public class UserDao {
 	}
 	
 	
-	private List<User> selectBySQL(String sql){
+	private List<User> selectBySQL(String sql) throws SQLException{
 		List<User> res = new ArrayList<User>();
 		ResultSet rs = dbOperator.select(sql);
 		try {

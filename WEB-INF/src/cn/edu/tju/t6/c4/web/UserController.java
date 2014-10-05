@@ -55,7 +55,7 @@ public class UserController {
 					@PathVariable String userID)
 			throws Exception{
 		User user = (new Gson()).fromJson(userBody, User.class);
-		//System.out.println("@ post /{userID} method  id :" + userID);
+		System.out.println("@ post /{userID} method  id :" + userID);
 		if(userService.get(user.getUser_id())!=null)
 			userService.update(user);
 		else

@@ -123,43 +123,6 @@ app.config(['$routeProvider', function($routeProvider) {
 			}
 		)
 		.when(
-			'/view/record/:application_id',
-			{
-				controller:'RecordViewCtrl',
-				resolve:{
-					application:[
-						"ApplicationLoader",
-						function(ApplicationLoader){
-							return ApplicationLoader();
-						}
-					]
-				},
-				templateUrl:'views/recordView.html'
-			}
-		)
-		.when(
-			'/edit/record/:application_id',
-			{
-				controller:'RecordEditCtrl',
-				resolve:{
-					application:[
-						"ApplicationLoader",
-						function(ApplicationLoader){
-							return ApplicationLoader();
-						}
-					]
-				},
-				templateUrl:'views/editApplication.html'
-			}
-		)
-		.when(
-			'/new/record',
-			{
-				controller:'RecordNewCtrl',
-				templateUrl:'views/editApplication.html'
-			}
-		)
-		.when(
 			'/view/user/:UserId', 
 			{
 				controller: 'UserViewCtrl',
@@ -198,7 +161,6 @@ app.config(['$routeProvider', function($routeProvider) {
 				templateUrl:'views/newUser.html'
 			}
 		)
-		
 		.when(
 			'/404',
 			{
@@ -229,8 +191,6 @@ app.controller(
 		function($scope,$location,currentUser){
 			if(currentUser.id == null){
 				alert("login failed");
-				$scope.currentUser = currentUserG;
-				$location.path('/login');
 			}
 			else{
 				currentUserG=currentUser;
@@ -289,23 +249,6 @@ app.controller(
 		}
 	]
 );
-
-app.controller(
-	'RecordViewCtrl',
-	[
-		'$scope','application', '$location',
-		function($scope, application, $location){
-				$scope.application = application;
-				$scope.edit = function() 
-				{
-					if(currentUserG.id==application.applicant_id&&application.status=="waitdm")
-						$location.path('/edit/record/' + application.application_id);
-					else alert("You have no authority to get access!");
-				};
-		}
-	]
-);
-
 app.controller(
 	'UserViewCtrl', 
 	[
@@ -319,29 +262,6 @@ app.controller(
 						$location.path('/edit/user/' + user.user_id);
 					else alert("You have no authority to get access!");
 				};
-		}
-	]
-);
-app.controller(
-	'RecordEditCtrl',
-	[
-		'$scope', '$location', 'application',
-		function($scope, $location, application) {
-			$scope.invisible = false;
-			$scope.application = application;
-			$scope.leavetype=[{"value":"sick"},{"value":"annual"},{"value":"go out"},{"value":"marital"},{"value":"maternity"},{"value":"others"}];
-			$scope.save = function() {
-				application.$save(
-					function(application) {
-						$location.path('/view/record/' + application.application_id);
-					}
-				);
-			};
-
-			$scope.remove = function() {
-				$scope.application.$delete(function(){});
-				$location.path('/records');
-			};
 		}
 	]
 );
@@ -369,23 +289,7 @@ app.controller('UserEditCtrl',
 		}
 	]
 );
-app.controller('RecordNewCtrl',
-	[
-		'$scope', '$location','Application',
-		function($scope, $location, Application) {
-			var application = new Application({});
-			$scope.application = application;
-			$scope.leavetype=[{"value":"sick"},{"value":"annual"},{"value":"go out"},{"value":"marital"},{"value":"maternity"},{"value":"others"}];
-			$scope.save = function() {
-				application.$save(
-					function(application) {
-						$location.path('/records');
-					}
-				);
-			};
-		}
-	]
-);
+
 app.controller('UserNewCtrl',
 	[
 		'$scope', '$location','User', 'departments',
@@ -402,11 +306,16 @@ app.controller('UserNewCtrl',
 					}
 				);
 			};
+
+			$scope.remove = function() {
+				$scope.user.$delete(function(){});
+				$location.path('/users');
+			};
 		}
 	]
 );
 
-/*app.controller('NewCtrl', ['$scope', '$location', 'Recipe',
+app.controller('NewCtrl', ['$scope', '$location', 'Recipe',
     function($scope, $location, Recipe) {
   $scope.recipe = new Recipe({
     ingredients: [ {} ]

@@ -19,9 +19,9 @@ public interface RecordService {
 	
 	public List<Application> getByState(long applyID, String state) throws SQLException;
 	
-	public boolean delete(int recordID) throws SQLException;
+	public boolean delete(int recordID,long applyID) throws SQLException;
 	
-	public boolean add(Application record, long applicant_id) throws SQLException;
+	public boolean add(Application record) throws SQLException;
 	
 	public boolean update(Application record) throws SQLException;
 }

@@ -66,14 +66,10 @@ public class OperatorCheckFilter  implements Filter{
 			checkFail(response, "Permission deny! User permission.");
 		}
 		else if(CommonConst.POSITION_AD.equalsIgnoreCase(position) 
-				|| position.equalsIgnoreCase(CommonConst.POSITION_GM))
+				|| CommonConst.POSITION_DM.equalsIgnoreCase(position)
+				|| position.equalsIgnoreCase(CommonConst.POSITION_GM)
+				|| position.equalsIgnoreCase(CommonConst.POSITION_VM))
 			chain.doFilter(request, response);
-		else if((position.equalsIgnoreCase(CommonConst.POSITION_DM))){
-			chain.doFilter(request, response);
-		}
-		else if(position.equalsIgnoreCase(CommonConst.POSITION_VM)){
-			chain.doFilter(request, response);
-		}
 		else
 			checkFail(response, "Department cann't recognized.");
 	}

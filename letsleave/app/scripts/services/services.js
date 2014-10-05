@@ -29,7 +29,7 @@ services.factory(
 services.factory(
 	'MultiDepartmentLoader', 
 	[
-		'Department', '$q','$location',
+		'Department', '$q',
 		function(Department, $q, $location) 
 		{
 			return function() 
@@ -76,7 +76,7 @@ services.factory(
 );
 
 services.factory(
-	'Application',
+	'application',
 	[
 		'$resource',
 		function($resource){
@@ -94,8 +94,8 @@ services.factory(
 services.factory(
 	'ApplicationLoader',
 	[
-		'Application', '$route', '$q','$location',
-		function(Application, $route, $q, $location){
+		'Application', '$route', '$q',
+		function(Application, $route, $q){
 			return function()
 			{
 				var delay = $q.defer();
@@ -109,7 +109,6 @@ services.factory(
 					{
 					
 						delay.reject('Unable to fetch Application');
-						$location.path("/500");
 					}
 				);
 				return delay.promise;
@@ -121,8 +120,8 @@ services.factory(
 services.factory(
 	'MultiUserLoader', 
 	[
-		'User', '$q','$location',
-		function(User, $q, $location) 
+		'User', '$q',
+		function(User, $q) 
 		{
 			return function() 
 			{
@@ -135,7 +134,6 @@ services.factory(
 					function() 
 					{
 						delay.reject('Unable to fetch Users');
-						$location.path("/500");
 					}
 				);
 				return delay.promise;
@@ -147,8 +145,8 @@ services.factory(
 services.factory(
 	'UserLoader', 
 	[
-		'User', '$route', '$q','$location',
-		function(User, $route, $q, $location) 
+		'User', '$route', '$q',
+		function(User, $route, $q) 
 		{
 			return function() 
 			{
@@ -163,7 +161,6 @@ services.factory(
 					function() 
 					{
 						delay.reject('Unable to fetch User '  + $route.current.params.UserId);
-						$location.path("/500");
 					}
 				);
 				return delay.promise;
