@@ -12,15 +12,6 @@ public class Approval implements Serializable{
 	protected String approve_date;
 	protected String approve_opinion;
 	protected boolean agreed;
-	protected Application application;
-	private static final long serialVersionUID = 1L;
-	public Application getApplication(){
-		return application;
-	}
-	
-	public void setApplication(Application app){
-		application = app;
-	}
 	
 	public int getApproval_id() {
 		return approval_id;

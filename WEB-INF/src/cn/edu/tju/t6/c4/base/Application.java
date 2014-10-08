@@ -3,7 +3,12 @@ package cn.edu.tju.t6.c4.base;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name="application")
@@ -21,6 +26,7 @@ public class Application implements Serializable{
 	protected String apply_date;
 	protected String status;
 	protected User applicant;
+	
 	public User getApplicant(){
 		return applicant;
 	}

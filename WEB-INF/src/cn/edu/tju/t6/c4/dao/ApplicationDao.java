@@ -26,13 +26,14 @@ public class ApplicationDao {
 	private final String DELETE_RECORD_BY_RECORDID = "DELETE FROM application WHERE application_id = %d;";
 	private final String ADD_RECORD = "INSERT application "
 			+ 		"(leave_date, applicant_id, leave_length, leave_reason, leave_type, apply_date, status) " 
-			+ "values ('%s', %d, %d, %s, '%s', '%s', '%s');";
+			+ "values (%s, %d, %d, %s, %s, %s, %s);";
 	private final String UPDATE_RECORD = "UPDATE application " +
 										"SET %s %s %s %s %s %s where application_id=%d ;";
 	
 	
 	   
-	public List<Application> getRecordByApplyID(long applyID){
+	public List<Application> getRecordByApplyID(long applyID) 
+			throws SQLException{
 		return selectBySQL(String.format(GET_RECORD_BY_APPLYID, applyID));
 	}
 	
@@ -61,12 +62,13 @@ public class ApplicationDao {
 		else return null;
 	}
 	
-	public boolean deleteRecordByID(long id) {
+	public boolean deleteRecordByID(long id) 
+			throws SQLException{
 		return dbOperater.delete(String.format(DELETE_RECORD_BY_RECORDID, id));
 	}
 	
 	public boolean addRecord(Application record) 
-			{
+			throws SQLException{
 		
 		return dbOperater.add(String.format(ADD_RECORD,
 				record.getLeave_date(),
@@ -79,21 +81,16 @@ public class ApplicationDao {
 	}
 	
 	public boolean checkExist(int id) 
-	{
+			throws SQLException{
 		boolean res = false;
 		ResultSet rs = dbOperater.select(String.format(CHECK_EXIST_RECORD, id));
-		try {
-			res = rs.first();
-			dbOperater.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		res = rs.first();
+		dbOperater.close();
 		return res;
 	}
 	
 	public boolean updateRecord(Application record) 
-	{
+			throws SQLException{
 		
 		
 		return dbOperater.update(String.format(UPDATE_RECORD,
@@ -103,10 +100,10 @@ public class ApplicationDao {
 				record.getLeave_type() != null ? "leave_type='"+record.getLeave_type()+"',":"",
 				record.getApply_date() != null? "apply_date='"+record.getApply_date()+"',":"",
 				"status='"+record.getStatus()+"'",
-				record.getApplication_id()));
+				record.getApplicant_id()));
 	}
 	
-	private List<Application> selectBySQL(String sql){
+	private List<Application> selectBySQL(String sql) throws SQLException{
 		List<Application> res = new ArrayList<Application>();
 		ResultSet rs = dbOperater.select(sql);
 		try {
@@ -114,15 +111,14 @@ public class ApplicationDao {
 				res.add(setInfoToCreateRecord(rs));
 			}
 			dbOperater.close();
-			
+			return res;
 		} catch (SQLException e) {
-			System.out.println("Can't get resultset! When select applications.");
+			throw new SQLException("Can't get resultset!");
 		}
-		return res;
 	}
 	
 	private Application setInfoToCreateRecord(ResultSet rs) 
-		{
+			throws NumberFormatException{
 		Application record = new Application();
 		try{
 			record.setApplication_id(rs.getInt("application_id"));

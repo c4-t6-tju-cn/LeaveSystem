@@ -123,6 +123,7 @@ app.config(['$routeProvider', function($routeProvider) {
 			}
 		)
 		.when(
+<<<<<<< HEAD
 			'/view/record/:application_id',
 			{
 				controller:'RecordViewCtrl',
@@ -175,6 +176,8 @@ app.config(['$routeProvider', function($routeProvider) {
 			}
 		)
 		.when(
+=======
+>>>>>>> origin/master
 			'/view/user/:UserId', 
 			{
 				controller: 'UserViewCtrl',
@@ -213,7 +216,6 @@ app.config(['$routeProvider', function($routeProvider) {
 				templateUrl:'views/newUser.html'
 			}
 		)
-		
 		.when(
 			'/404',
 			{
@@ -245,8 +247,6 @@ app.controller(
 		function($scope,$location,currentUser,$route){
 			if(currentUser.id == null){
 				alert("login failed");
-				$scope.currentUser = currentUserG;
-				$location.path('/login');
 			}
 			else{
 				currentUserG=currentUser;
@@ -305,6 +305,7 @@ app.controller(
 		}
 	]
 );
+<<<<<<< HEAD
 
 app.controller(
 	'RecordViewCtrl',
@@ -332,6 +333,8 @@ app.controller(
 	]
 );
 
+=======
+>>>>>>> origin/master
 app.controller(
 	'UserViewCtrl', 
 	[
@@ -350,6 +353,7 @@ app.controller(
 		}
 	]
 );
+<<<<<<< HEAD
 app.controller(
 	'RecordEditCtrl',
 	[
@@ -396,6 +400,9 @@ app.controller(
 		}
 	]
 )
+=======
+
+>>>>>>> origin/master
 app.controller('UserEditCtrl',
 	[
 		'$scope', '$location', 'user','departments',
@@ -420,6 +427,7 @@ app.controller('UserEditCtrl',
 		}
 	]
 );
+<<<<<<< HEAD
 app.controller('RecordNewCtrl',
 	[
 		'$scope', '$location','Application',
@@ -438,6 +446,9 @@ app.controller('RecordNewCtrl',
 		}
 	]
 );
+=======
+
+>>>>>>> origin/master
 app.controller('UserNewCtrl',
 	[
 		'$scope', '$location','User', 'departments',
@@ -455,10 +466,16 @@ app.controller('UserNewCtrl',
 				);
 				
 			};
+
+			$scope.remove = function() {
+				$scope.user.$delete(function(){});
+				$location.path('/users');
+			};
 		}
 	]
 );
 
+<<<<<<< HEAD
 function alertErr(res, $location){
 	try{
 		if(res[0].response!=null){
@@ -481,3 +498,28 @@ function alertErr(res){
 	}
 	return;
 }
+=======
+app.controller('NewCtrl', ['$scope', '$location', 'Recipe',
+    function($scope, $location, Recipe) {
+  $scope.recipe = new Recipe({
+    ingredients: [ {} ]
+  });
+
+  $scope.save = function() {
+    $scope.recipe.$save(function(recipe) {
+    $location.path('/');
+    });
+  };
+}]);
+/*
+app.controller('IngredientsCtrl', ['$scope',
+    function($scope) {
+  $scope.addIngredient = function() {
+    var ingredients = $scope.recipe.ingredients;
+    ingredients[ingredients.length] = {};
+  };
+  $scope.removeIngredient = function(index) {
+    $scope.recipe.ingredients.splice(index, 1);
+  };
+}]);*/
+>>>>>>> origin/master

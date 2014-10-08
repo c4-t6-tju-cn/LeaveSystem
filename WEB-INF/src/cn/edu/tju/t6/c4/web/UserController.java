@@ -59,7 +59,7 @@ public class UserController {
 					@PathVariable String userID,
 					@ModelAttribute("user") long current_user){
 		User user = (new Gson()).fromJson(userBody, User.class);
-		//System.out.println("@ post /{userID} method  id :" + userID);
+		System.out.println("@ post /{userID} method  id :" + userID);
 		if(userService.get(user.getUser_id())!=null)
 			userService.update(user,current_user);
 		else
