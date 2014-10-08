@@ -56,7 +56,7 @@ public class UserCheckFilter implements Filter{
 								+ "\",\"id\":\"" + user + "\",\"department_id\":\"" +userGet.getDepartment_id()  + "\"}");
 						return;
 					}
-				} catch (NumberFormatException | SQLException e) {
+				} catch (NumberFormatException e) {
 					e.printStackTrace();
 					checkFail(response);
 				}

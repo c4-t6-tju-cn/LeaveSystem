@@ -22,6 +22,7 @@ public class ApplicationDao {
 	private final String GET_RECORD_BY_STATE = "SELECT * FROM application WHERE status = '%s';";
 	private final String GET_RECORD_BY_APPLYID_AND_STATE = "SELECT * FROM application WHERE applicant_id = %d and status = '%s';";
 	private final String GET_RECORD_BY_ID = "SELECT * FROM application WHERE application_id = %d;";
+	private final String GET_RECORD_FOR_ANNUAL = "SELECT * FROM application WHERE applicant_id = %d and leave_date like '%d-%%' and leave_type='annual';";
 	private final String DELETE_RECORD_BY_RECORDID = "DELETE FROM application WHERE application_id = %d;";
 	private final String ADD_RECORD = "INSERT application "
 			+ 		"(leave_date, applicant_id, leave_length, leave_reason, leave_type, apply_date, status) " 
@@ -35,6 +36,9 @@ public class ApplicationDao {
 		return selectBySQL(String.format(GET_RECORD_BY_APPLYID, applyID));
 	}
 	
+	public List<Application> getRecordForAnnual(long applicant, int year){
+		return selectBySQL(String.format(GET_RECORD_FOR_ANNUAL, applicant, year));
+	}
 	
 	
 	public List<Application> getRecordByStatus(String state) 
@@ -48,7 +52,7 @@ public class ApplicationDao {
 	}
 	
 	public Application getRecordByID(long id) 
-			throws SQLException{
+			{
 		ArrayList<Application> apps = (ArrayList<Application>) selectBySQL(String.format(GET_RECORD_BY_ID, id));
 		if (apps.size() > 0){
 			Application app = apps.get(0);

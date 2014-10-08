@@ -11,10 +11,19 @@
 	<div><span>Length:&nbsp;{{application.leave_length}}</span></div>
 <div>
 
-<div>Approval status:&nbsp;{{application.status}}</div>
-
-<form ng-submit="edit()" class="form-horizontal">
+<div>Approval status:&nbsp;{{application.status}}<br/>
+	<h3>Approval list:</h3>
+	<li ng-repeat="approval in application.approvals"><div>
+			<Strong>ID:{{approval.approval_id}}</Strong><br/>
+			Auditor:{{approval.auditor_id}}</br>
+			Opinion:{{approval.approve_opinion}}<br/>
+			Approve time:{{approval.approve_date}}
+		<div>
+	</li>
+</div>
+<form  class="form-horizontal">
   <div class="form-actions">
-    <button class="btn btn-primary">Edit</button>
+    <button class="btn btn-primary" ng-click="edit()">Edit</button>
+	<button class="btn btn-primary" ng-click="approve()" ng-show="needApprove">Approve</button> 
   </div>
 </form>

@@ -22,7 +22,17 @@ services.factory(
 		'$resource',
 		function($resource)
 		{
-			return $resource( services_map + '/department/:departmentId', {userID: '@department_id'});
+			return $resource( services_map + '/department', {});
+		}
+	]
+);
+services.factory(
+	'Approval', 
+	[
+		'$resource',
+		function($resource)
+		{
+			return $resource( services_map + '/approval/', {});
 		}
 	]
 );

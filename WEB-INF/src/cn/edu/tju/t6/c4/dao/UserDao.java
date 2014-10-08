@@ -37,8 +37,7 @@ public class UserDao {
 			"select U.user_id, U.user_name, U.department_id,  U.total_annual_leave, U.staff_position"
 			+ " from user U where U.department_id='%d' and U.staff_position='manager';";
 	
-	public boolean checkExist(long id) 
-			throws SQLException{
+	public boolean checkExist(long id){
 		if(get(id)!= null)	return true;
 		return false;
 	}
@@ -55,15 +54,13 @@ public class UserDao {
 		return null;
 	}
 	
-	public List<User> getAll() 
-			throws SQLException{
+	public List<User> getAll(){
 		return selectBySQL(LIST_ALL_USER);
 	}
 	
 	
 	
-	public boolean add(User user) 
-			throws SQLException{
+	public boolean add(User user){
 		return dbOperator.add(String.format(ADD_USER, 
 				user.getUser_id(),
 				user.getUser_name(),
@@ -73,8 +70,7 @@ public class UserDao {
 				user.getTotal_annual_leave() !=0? user.getTotal_annual_leave():null));
 	}
 
-	public boolean update(User user) 
-			throws SQLException{
+	public boolean update(User user){
 		
 		if(user.getUser_name()!=null&&user.getUser_name()!=""){
 			dbOperator.update(String.format(UPDATE_USER,"user_name",user.getUser_name(),user.getUser_id()));
@@ -91,13 +87,12 @@ public class UserDao {
 		return true;
 	}
 	
-	public boolean updateByAnnualleave(User user) throws SQLException{
+	public boolean updateByAnnualleave(User user){
 		return dbOperator.update(String.format(UPDATE_USER_BY_ANNUALLEAVE,
 									user.getTotal_annual_leave(), user.getUser_id()));
 	}
 	
-	public boolean delete(long id) 
-			throws SQLException{
+	public boolean delete(long id){
 		return dbOperator.delete(String.format(DELETE_USER_BY_ID, id));
 	}
 	
@@ -116,10 +111,10 @@ public class UserDao {
 		return res;
 	}
 	
-	private User setInfoToCreateUser(ResultSet rs) throws SQLException{
+	private User setInfoToCreateUser(ResultSet rs){
 		User user = new User();
-		user.setUser_id(rs.getLong("U.user_id"));
-		user.setUser_name(rs.getString("U.user_name"));
+		user.setUser_id(Long.parseLong(dbOperator.getItemResult(rs, "U.user_id")));
+		user.setUser_name(dbOperator.getItemResult(rs, "U.user_name"));
 		user.setStaff_position(dbOperator.getItemResult(rs,"U.staff_position"));
 		user.setDepartment_id(Integer.parseInt(dbOperator.getItemResult(rs,"U.department_id")));
 		user.setTotal_annual_leave(Integer.parseInt(dbOperator.getItemResult(rs,"U.total_annual_leave")));
@@ -128,22 +123,32 @@ public class UserDao {
 		return user;
 	}
 	
-	public String getPwd(long id) throws SQLException{
+	public String getPwd(long id){
 		ResultSet rs = dbOperator.select(String.format(SELECT_PWD,id));
 		Random rand = new Random();
 		int pwdi = rand.nextInt();
 		String pwd=pwdi+"";
-		if(rs.next()){
-			pwd=rs.getString("pwd");
+		try {
+			if(rs.next()){
+				pwd=rs.getString("pwd");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return pwd;
 	}
 	
-	public User getDepartmentManager(int dep_id) throws SQLException{
+	public User getDepartmentManager(int dep_id){
 		ResultSet rs = dbOperator.select(String.format(SELECT_DEPARTMENT_MANAGER,dep_id));
 		//String pwd=pwdi+"";
-		if(rs.next()){
-			return setInfoToCreateUser(rs);
+		try {
+			if(rs.next()){
+				return setInfoToCreateUser(rs);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}

@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +45,7 @@ public class RecordController{
 		return recordService.get(Long.parseLong(applyID));
 	}
 
-	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/all/time/{time}")
+	/*@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/all/time/{time}")
 	public @ResponseBody List<Application> getAfter(
 			@PathVariable("applyID") String applyID, 
 			@PathVariable("time") String time) throws Exception {
@@ -56,19 +55,19 @@ public class RecordController{
 				 Integer.parseInt(times[1]), 
 				 Integer.parseInt(times[2]));
 		return recordService.getAfter(Long.parseLong(applyID), date);
-	}
+	}*/
 
 	@RequestMapping(method=RequestMethod.GET, value="/applyID/all/status/{status}/time/all")
 	public @ResponseBody List<Application> getByState(
-			@PathVariable String state) throws Exception{
-		return recordService.getByState(state);
+			@PathVariable("status") String status) throws Exception{
+		return recordService.getByState(status);
 	}
 
 	@RequestMapping(method=RequestMethod.GET, value="/applyID/{applyID}/status/{status}/time/all")
 	public @ResponseBody List<Application> getByState(
 			@PathVariable("applyID") String applyID, 
-			@PathVariable("status") String state) throws Exception{
-		return recordService.getByState(Long.parseLong(applyID),state);
+			@PathVariable("status") String status) throws Exception{
+		return recordService.getByState(Long.parseLong(applyID),status);
 	}
 
 	@RequestMapping(method=RequestMethod.DELETE, value="/{recordID}")

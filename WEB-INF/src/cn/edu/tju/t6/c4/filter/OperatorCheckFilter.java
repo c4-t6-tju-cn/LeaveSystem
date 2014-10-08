@@ -34,42 +34,74 @@ public class OperatorCheckFilter  implements Filter{
 		long userID;
 		if(httpRequest.getSession().getAttribute("user") == null)	{
 			userID = 0;
-			/*if(url.contains("/login") && method.equalsIgnoreCase("POST")){
-				response.getWriter().print("{}");
-			}*/
 		}
 		else{
 			userID = (long)httpRequest.getSession().getAttribute("user");
 		}
 		if(CommonConst.POSITION_EMPLOYEE.equalsIgnoreCase(position)){
 			// record----  0 < applyID length < 25 
-			if(url.contains("/record/")){
-				String applyID = getFirstMatchSubstring(url.split("/record/")[1],"\\d{1,25}");
-				if(applyID != null && userID == Long.parseLong(applyID)){
+			if(url.contains("/record")){
+				if(method.equalsIgnoreCase("get")){
 					chain.doFilter(request, response);
-					return;
 				}
-				checkFail(response, "Permission deny! Record permisson.");
+				else if(method.equalsIgnoreCase("post")||method.equalsIgnoreCase("delete")){
+					chain.doFilter(request, response);
+				}
+				else{
+					checkFail(response, "Permission deny! Record permisson.");
+				}
 				return;
 			}
-			
+			if(url.contains("/department")){
+				chain.doFilter(request, response);
+				return;
+			}
 			// user----  0 < userID length < 25 
 			if(url.contains("/user/") && !method.equalsIgnoreCase("DELETE")){
 				String user = getFirstMatchSubstring(url.split("/user/")[1],"\\d{1,25}");
-				System.out.println("user "+ user+ "  "+ userID);
-				if(user != null && userID == Long.parseLong(user)){
+				boolean selfAction =  user != null &&(userID == Long.parseLong(user));
+				if(selfAction){
 					chain.doFilter(request, response);
 					return;
 				}
 			}
-			
 			checkFail(response, "Permission deny! User permission.");
 		}
 		else if(CommonConst.POSITION_AD.equalsIgnoreCase(position) 
 				|| position.equalsIgnoreCase(CommonConst.POSITION_GM))
 			chain.doFilter(request, response);
 		else if((position.equalsIgnoreCase(CommonConst.POSITION_DM))){
-			chain.doFilter(request, response);
+			if(url.contains("/record")){
+				if(method.equalsIgnoreCase("get")){
+					chain.doFilter(request, response);
+				}
+				else if(method.equalsIgnoreCase("post")||method.equalsIgnoreCase("delete")){
+					chain.doFilter(request, response);
+				}
+				else{
+					checkFail(response, "Permission deny! Record permisson.");
+				}
+				return;
+			}
+			if(url.contains("/department")){
+				chain.doFilter(request, response);
+				return;
+			}
+			// user----  0 < userID length < 25 
+			if(url.contains("/user")){
+				String user = null;
+				if(url.contains("/users/"))
+					user = getFirstMatchSubstring(url.split("/user/")[1],"\\d{1,25}");
+				boolean selfAction =  user != null &&(userID == Long.parseLong(user));
+				if(selfAction || user == null){
+					chain.doFilter(request, response);
+				}
+				return;
+			}
+			if(url.contains("/approval/")){
+				chain.doFilter(request, response);
+			}
+			checkFail(response, "Permission deny! User permission: Manager.");
 		}
 		else if(position.equalsIgnoreCase(CommonConst.POSITION_VM)){
 			chain.doFilter(request, response);
@@ -98,6 +130,7 @@ public class OperatorCheckFilter  implements Filter{
 
 	private void checkFail(ServletResponse response, String str) throws IOException{
 		PrintWriter out = response.getWriter();
+		
 		out.write("[{\"response\":\""+str+"\"}]");
 		out.flush();
 	}

@@ -73,13 +73,14 @@ public class DBOperator {
 	
 	public boolean add(String sql) {
 		try {
-			Connection conn = connection();
+			conn = connection();
 		
 			if(conn == null)	return false;
 		
 			Statement statement = conn.createStatement();
 			System.out.print(head(sql));
-			return statement.execute(sql);
+			statement.execute(sql);
+			return true;
 		} catch (SQLException e) {
 			System.out.println("SQLException: "+sql+" NOT RIGHT!");
 			//return null;
@@ -88,6 +89,9 @@ public class DBOperator {
 				conn.close();
 			} catch (SQLException e) {
 				System.out.println("SQL connection can't close!");
+			} catch (Exception e){
+				System.out.println("Other exception. See:");
+				e.printStackTrace();
 			}
 		}
 		return false;

@@ -119,7 +119,7 @@ app.config(['$routeProvider', function($routeProvider) {
 		.when(
 			'/records',
 			{
-				redirectTo:'/records/applicant/' + currentUserG.id + '/status/all/time/all'//not completed
+				redirectTo:'/records/applicant/' + getCookie("u_id") + '/status/all/time/all'//not completed
 			}
 		)
 		.when(
@@ -157,6 +157,21 @@ app.config(['$routeProvider', function($routeProvider) {
 			{
 				controller:'RecordNewCtrl',
 				templateUrl:'views/editApplication.html'
+			}
+		)
+		.when(
+			'/approve/:application_id',
+			{
+				controller:'ApproveCtrl',
+				resolve:{
+					application:[
+						"ApplicationLoader",
+						function(ApplicationLoader){
+							return ApplicationLoader();
+						}
+					]
+				},
+				templateUrl:'views/approve.html'
 			}
 		)
 		.when(
@@ -226,7 +241,8 @@ app.controller(
 		'$scope',
 		'$location',
 		'currentUser',
-		function($scope,$location,currentUser){
+		'$route',
+		function($scope,$location,currentUser,$route){
 			if(currentUser.id == null){
 				alert("login failed");
 				$scope.currentUser = currentUserG;
@@ -240,6 +256,7 @@ app.controller(
 				SetCookie("u_position", currentUser.position);
 				$scope.currentUser = currentUser;
 				alert('User log in successful.' + '\nHello ' + currentUserG.name)
+				$route.reload();
 				$location.path('/records/applicant/' + currentUserG.id + '/status/all/time/all');
 			}
 			$scope.login = function(){
@@ -268,10 +285,8 @@ app.controller(
 		'$scope', 
 		'users',
 		function($scope, users) {
-			if( users.response!=null)
-				$scope.users = [];
-			else
-				$scope.users = users;
+			alertErr(users);
+			$scope.users = users;
 			
 		}
 	]
@@ -285,7 +300,8 @@ app.controller(
 			/*if( records[0]==null || records[0].applyID == null)
 				$scope.records = [];
 			else*/
-				$scope.records = records;
+			alertErr(records);
+			$scope.records = records;
 		}
 	]
 );
@@ -295,13 +311,23 @@ app.controller(
 	[
 		'$scope','application', '$location',
 		function($scope, application, $location){
-				$scope.application = application;
-				$scope.edit = function() 
-				{
-					if(currentUserG.id==application.applicant_id&&application.status=="waitdm")
-						$location.path('/edit/record/' + application.application_id);
-					else alert("You have no authority to get access!");
-				};
+			alertErr(application, $location);
+			$scope.application = application;
+			if(application.status=="DENIED"||application.status=="PASSED"){
+				$scope.needApprove=false;
+			}
+			else $scope.needApprove=true;
+			$scope.edit = function() 
+			{
+				if(currentUserG.id==application.applicant_id&&application.status=="WAITDM")
+					$location.path('/edit/record/' + application.application_id);
+				else alert("You have no authority to get access!");
+			};
+			$scope.approve = function(){
+				if(currentUserG.position!="employee")
+					$location.path("/approve/" + application.application_id);
+				else alert("You have no authority to approve this.");
+			}
 		}
 	]
 );
@@ -312,9 +338,11 @@ app.controller(
 		'$scope', '$location', 'user',
 		function($scope, $location, user) 
 		{
+			alertErr(user, $location);
 			$scope.user = user;
 			$scope.edit = function() 
 				{
+					
 					if(currentUserG.position.toUpperCase()=="ADMIN"||currentUserG.id == user.user_id)
 						$location.path('/edit/user/' + user.user_id);
 					else alert("You have no authority to get access!");
@@ -327,8 +355,10 @@ app.controller(
 	[
 		'$scope', '$location', 'application',
 		function($scope, $location, application) {
+			alertErr(application, $location);
 			$scope.invisible = false;
 			$scope.application = application;
+			$scope.user_id = getCookie("u_id");
 			$scope.leavetype=[{"value":"sick"},{"value":"annual"},{"value":"go out"},{"value":"marital"},{"value":"maternity"},{"value":"others"}];
 			$scope.save = function() {
 				application.$save(
@@ -345,11 +375,32 @@ app.controller(
 		}
 	]
 );
-
+app.controller(
+	'ApproveCtrl',
+	[
+		'Approval', '$scope', '$location', 'application',
+		function(Approval, $scope, $location, application) {
+			alertErr(application, $location);
+			$scope.application = application;
+			$scope.auditor_id = getCookie("u_id");
+			var approval = new Approval({});
+			$scope.approval = approval;
+			$scope.approval.application_id = application.application_id;
+			$scope.save = function() {
+				application.$save(
+					function(application) {
+						$location.path('/view/record/' + application.application_id);
+					}
+				);
+			};
+		}
+	]
+)
 app.controller('UserEditCtrl',
 	[
 		'$scope', '$location', 'user','departments',
 		function($scope, $location, user, departments) {
+			alertErr(user, $location);
 			$scope.user = user;
 			var positionSelect = [{"value":"employee"},{"value":"manager"},{"value":"vice general manager"},{"value":"general manager"}];
 			$scope.departments = departments;
@@ -376,6 +427,7 @@ app.controller('RecordNewCtrl',
 			var application = new Application({});
 			$scope.application = application;
 			$scope.leavetype=[{"value":"sick"},{"value":"annual"},{"value":"go out"},{"value":"marital"},{"value":"maternity"},{"value":"others"}];
+			$scope.user_id = getCookie("u_id");
 			$scope.save = function() {
 				application.$save(
 					function(application) {
@@ -401,31 +453,31 @@ app.controller('UserNewCtrl',
 						$location.path('/view/user/' + user.user_id);
 					}
 				);
+				
 			};
 		}
 	]
 );
 
-/*app.controller('NewCtrl', ['$scope', '$location', 'Recipe',
-    function($scope, $location, Recipe) {
-  $scope.recipe = new Recipe({
-    ingredients: [ {} ]
-  });
-
-  $scope.save = function() {
-    $scope.recipe.$save(function(recipe) {
-    $location.path('/');
-    });
-  };
-}]);
-/*
-app.controller('IngredientsCtrl', ['$scope',
-    function($scope) {
-  $scope.addIngredient = function() {
-    var ingredients = $scope.recipe.ingredients;
-    ingredients[ingredients.length] = {};
-  };
-  $scope.removeIngredient = function(index) {
-    $scope.recipe.ingredients.splice(index, 1);
-  };
-}]);*/
+function alertErr(res, $location){
+	try{
+		if(res[0].response!=null){
+			
+			$location.path("/500");
+			alert(res[0].response);
+		}
+	}catch(e){
+		
+	}
+	return;
+}
+function alertErr(res){
+	try{
+		if(res[0].response!=null){
+			alert(res[0].response);
+		}
+	}catch(e){
+		
+	}
+	return;
+}

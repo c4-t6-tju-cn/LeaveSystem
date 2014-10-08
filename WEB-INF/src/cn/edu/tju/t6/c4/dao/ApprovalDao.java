@@ -17,7 +17,7 @@ public class ApprovalDao {
 	private final String GET_APPROVALS_BY_ID = "SELECT * FROM approval where application_id = %d;";
 	private final String GET_APPROVALS_BY_AUD = "SELECT * FROM approval where auditor_id = %d;";
 	private final String ADD_APPROVAL = "INSERT approval (auditor_id, application_id, approve_date, approve_opinion, agreed)"
-			+ " values(%d, %d, '%s', %s, %d);";
+			+ " values(%d, %d, '%s', %s, %s);";
 	
 	public List<Approval> getApprovalsByApplication(long applicationID) throws SQLException{
 		return dealSelectSQL(String.format(GET_APPROVALS_BY_ID, applicationID));
@@ -52,13 +52,15 @@ public class ApprovalDao {
 		return approval;
 	}
 	
-	public boolean add(Approval ap) throws SQLException{
+	public boolean add(Approval ap){
 		boolean agreed = ap.getAgreed();
 		String approve_date = CommonConst.getCurrentDate();
 		long auditor_id = ap.getAuditor_id();
 		String approve_opinion = ap.getApprove_opinion();
 		int application_id = ap.getApplication_id();
-		String sql = String.format(ADD_APPROVAL, auditor_id, application_id, approve_date, approve_opinion, agreed);
+		String sql = String.format(ADD_APPROVAL, auditor_id, application_id, approve_date, 
+				(approve_opinion.equals(""))?"null":"'" + approve_opinion+ "'", 
+				agreed?"true":"false");
 		return dbOperator.add(sql);
 	}
 	

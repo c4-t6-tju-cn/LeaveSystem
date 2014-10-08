@@ -1,6 +1,7 @@
 package cn.edu.tju.t6.c4.base;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class CommonConst {
 
@@ -10,11 +11,11 @@ public class CommonConst {
 	   
 	   public static final String STATE_WAITGMV = "WAITGMV";
 	   
-	   public static final String STATE_WATIGM = "WAITGM";
+	   public static final String STATE_WAITGM = "WAITGM";
 
-	   public static final String STATE_FAIL = "DENY";
+	   public static final String STATE_FAIL = "DENIED";
 
-	   public static final String STATE_SUCCESS = "PASS";
+	   public static final String STATE_SUCCESS = "PASSED";
 	   
 	   public static final String POSITION_EMPLOYEE = "EMPLOYEE";
 	   
@@ -46,5 +47,24 @@ public class CommonConst {
 		   s=cal.get(Calendar.SECOND);
 		   String time = h + ":" + m + ":" + s;
 		   return getCurrentDate() + "/" + time;
+	   }
+	   public static Date getDate(String datestr){
+		   Date date = new Date();
+		   try {
+			   int y = Integer.parseInt(datestr.split(TIME_SPLIT)[0]);
+			   int m = Integer.parseInt(datestr.split(TIME_SPLIT)[1]);
+			   int d = Integer.parseInt(datestr.split(TIME_SPLIT)[2]);
+			   date.setYear(y);
+			   date.setMonth(m-1);
+			   date.setDate(d);
+		   }catch(Exception e){
+			   System.out.println("Date is not right!");
+			   e.printStackTrace();
+		   }
+		   return date;
+	   }
+	   public static boolean notBefore(String d1, String d2){
+		   if(getDate(d1).after(getDate(d2))) return false;
+		   else return true;
 	   }
 }

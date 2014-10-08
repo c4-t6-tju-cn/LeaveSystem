@@ -1,0 +1,29 @@
+<h3>Approve</h3>
+<div class="control-group">
+    <label class="control-label" for="auditorId">AuditorId:</label>
+    <div class="controls">
+      <input ng-model="auditor" disabled="true" class="input-xxlarge" id="auditorId"></input>
+    </div>
+</div>
+<form name="approvalForm" ng-submit="save()" class="form-horizontal">
+<div class="control-group">
+    <label class="control-label" for="applId">ApplicationId:</label>
+    <div class="controls">
+      <input ng-model="approval.application_id" disabled="true" class="input-xxlarge" id="applId"></input>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="apprOp">reason:</label>
+    <div class="controls">
+      <textarea ng-model="approval.approve_opinion" rows="10" class="input-xxlarge" id="apprOp"></textarea>
+    </div>
+</div>
+<div>
+Agree?
+<input type="radio" name="agree" ng-model="approval.agreed" value="true" id="a1" />
+<input type="radio" name="agree" ng-model="approval.agreed" value= "false" id="a2"/>
+</div>
+<div class="form-actions">
+    <button class="btn btn-primary" >Submit</button>
+</div>
+</form>
