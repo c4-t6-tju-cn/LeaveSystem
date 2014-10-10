@@ -386,6 +386,7 @@ app.controller(
 			$scope.save = function() {
 				approval.$save(
 					function(approval) {
+						alert(approval.response);
 						$location.path('/view/record/' + application.application_id);
 					}
 				);

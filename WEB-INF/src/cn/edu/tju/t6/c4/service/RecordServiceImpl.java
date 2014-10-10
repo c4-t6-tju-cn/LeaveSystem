@@ -119,7 +119,7 @@ public class RecordServiceImpl implements RecordService{
 	}
 
 	@Override
-	public boolean approve(Approval appr, long auditorId) {
+	public String approve(Approval appr, long auditorId) {
 		// TODO Auto-generated method stub
 		// check form
 		/**
@@ -135,11 +135,15 @@ public class RecordServiceImpl implements RecordService{
 		User applicant = userDao.get(appl.getApplicant_id());
 		User auditor = userDao.get(auditorId);
 		boolean checkOk = true;
-		
+		String response;
 		if(appl.getStatus().equalsIgnoreCase(CommonConst.STATE_FAIL)
 				||appl.getStatus().equalsIgnoreCase(CommonConst.STATE_SUCCESS)
 				||CommonConst.notBefore(appl.getLeave_date(), CommonConst.getCurrentDate())){
-			checkOk = false;
+			response = "{\"response\":\"Application overdue.\"}";//ÉêÇë¹ýÆÚ
+			//checkOk = false;
+			
+			
+			return response;
 		}
 		else{
 			if(auditor.getStaff_position().equalsIgnoreCase(CommonConst.POSITION_AD)){
@@ -168,7 +172,9 @@ public class RecordServiceImpl implements RecordService{
 					else
 						appl.setStatus(CommonConst.STATE_FAIL);
 				}
-				else checkOk = false;
+				else {
+					checkOk = false;
+				}
 			}
 			else if(appl.getStatus().equalsIgnoreCase(CommonConst.STATE_WAITMANAGER)){
 				if(auditor.getStaff_position().equalsIgnoreCase(CommonConst.POSITION_GM)){
@@ -204,9 +210,18 @@ public class RecordServiceImpl implements RecordService{
 			checkOk = approvalDao.add(appr);
 			System.out.println(checkOk);
 			if(checkOk) checkOk = applicationDao.updateRecord(appl);
-			return checkOk;
+			response = "{\"response\":\"Application approved successfully.\"}";
 		}
-		return false;
+		else {
+			response="{\"response\":\"You have no authority to approve this application:\n"
+					+ "status : " + appl.getStatus() 
+					+ " and your position : "
+					+ auditor.getStaff_position() 
+					+ "\nYour department : " + auditor.getDepartment_id()
+					+ "\nResponsible department : " + applicant.getDepartment_id()
+					+ ".\nCheck if you have any problem.\nApprove refused.\"}";
+		}
+		return response;
 	}
 	
 	
