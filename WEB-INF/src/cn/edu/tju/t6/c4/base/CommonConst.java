@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class CommonConst {
 
+	public static final String versionID = "0.6387";
+	
 	   public static final String TIME_SPLIT = "-";
 
 	   public static final String STATE_WAITMANAGER = "WAITDM";

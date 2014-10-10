@@ -19,7 +19,7 @@ public class ApprovalDao {
 	private final String ADD_APPROVAL = "INSERT approval (auditor_id, application_id, approve_date, approve_opinion, agreed)"
 			+ " values(%d, %d, '%s', %s, %s);";
 	
-	public List<Approval> getApprovalsByApplication(long applicationID) throws SQLException{
+	public List<Approval> getApprovalsByApplication(long applicationID){
 		return dealSelectSQL(String.format(GET_APPROVALS_BY_ID, applicationID));
 	}
 	

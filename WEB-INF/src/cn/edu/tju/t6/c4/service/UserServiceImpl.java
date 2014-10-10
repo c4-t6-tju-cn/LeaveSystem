@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.edu.tju.t6.c4.base.CommonConst;
 import cn.edu.tju.t6.c4.base.Department;
 import cn.edu.tju.t6.c4.base.User;
 import cn.edu.tju.t6.c4.dao.DepartmentDao;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService{
 		User update_user = new User();
 		long update_id = user.getUser_id();
 		
-		if(current.getStaff_position().equalsIgnoreCase("admin")){
+		if(current.getStaff_position().equalsIgnoreCase(CommonConst.POSITION_AD)){
 			update_user = user;
 		}
 		else{

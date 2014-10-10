@@ -6,21 +6,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name="approval")
 public class Approval implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int approval_id;
 	protected int application_id;
 	protected long auditor_id;
 	protected String approve_date;
 	protected String approve_opinion;
 	protected boolean agreed;
-	protected Application application;
-	private static final long serialVersionUID = 1L;
-	public Application getApplication(){
-		return application;
-	}
-	
-	public void setApplication(Application app){
-		application = app;
-	}
 	
 	public int getApproval_id() {
 		return approval_id;

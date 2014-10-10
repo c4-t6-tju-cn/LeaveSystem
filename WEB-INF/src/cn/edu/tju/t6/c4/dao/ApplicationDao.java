@@ -41,13 +41,11 @@ public class ApplicationDao {
 	}
 	
 	
-	public List<Application> getRecordByStatus(String state) 
-			throws SQLException{
+	public List<Application> getRecordByStatus(String state){
 		return selectBySQL(String.format(GET_RECORD_BY_STATE, state));
 	}
 	
-	public List<Application> getRecordByApplyIDAndState(long applyID, String state) 
-			throws SQLException{
+	public List<Application> getRecordByApplyIDAndState(long applyID, String state){
 		return selectBySQL(String.format(GET_RECORD_BY_APPLYID_AND_STATE, applyID, state));
 	}
 	
@@ -61,12 +59,12 @@ public class ApplicationDao {
 		else return null;
 	}
 	
-	public boolean deleteRecordByID(long id) {
+	public boolean deleteRecordByID(long id) 
+			throws SQLException{
 		return dbOperater.delete(String.format(DELETE_RECORD_BY_RECORDID, id));
 	}
 	
-	public boolean addRecord(Application record) 
-			{
+	public boolean addRecord(Application record){
 		
 		return dbOperater.add(String.format(ADD_RECORD,
 				record.getLeave_date(),
@@ -78,12 +76,12 @@ public class ApplicationDao {
 				record.getStatus()));
 	}
 	
-	public boolean checkExist(int id) 
-	{
+	public boolean checkExist(int id)  {
 		boolean res = false;
 		ResultSet rs = dbOperater.select(String.format(CHECK_EXIST_RECORD, id));
 		try {
 			res = rs.first();
+		
 			dbOperater.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -92,8 +90,7 @@ public class ApplicationDao {
 		return res;
 	}
 	
-	public boolean updateRecord(Application record) 
-	{
+	public boolean updateRecord(Application record){
 		
 		
 		return dbOperater.update(String.format(UPDATE_RECORD,
@@ -114,15 +111,15 @@ public class ApplicationDao {
 				res.add(setInfoToCreateRecord(rs));
 			}
 			dbOperater.close();
-			
+			return res;
 		} catch (SQLException e) {
-			System.out.println("Can't get resultset! When select applications.");
+			System.out.print("Can't get resultset!");
 		}
 		return res;
 	}
 	
 	private Application setInfoToCreateRecord(ResultSet rs) 
-		{
+			throws NumberFormatException{
 		Application record = new Application();
 		try{
 			record.setApplication_id(rs.getInt("application_id"));

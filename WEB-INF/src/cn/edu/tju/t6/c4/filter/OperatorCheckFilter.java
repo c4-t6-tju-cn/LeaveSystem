@@ -65,10 +65,11 @@ public class OperatorCheckFilter  implements Filter{
 					return;
 				}
 			}
-			checkFail(response, "Permission deny! User permission.");
+			//checkFail(response, "Permission deny! User permission.");
 		}
 		else if(CommonConst.POSITION_AD.equalsIgnoreCase(position) 
-				|| position.equalsIgnoreCase(CommonConst.POSITION_GM))
+				|| position.equalsIgnoreCase(CommonConst.POSITION_GM)
+				|| position.equalsIgnoreCase(CommonConst.POSITION_VM))
 			chain.doFilter(request, response);
 		else if((position.equalsIgnoreCase(CommonConst.POSITION_DM))){
 			if(url.contains("/record")){
@@ -81,14 +82,12 @@ public class OperatorCheckFilter  implements Filter{
 				else{
 					checkFail(response, "Permission deny! Record permisson.");
 				}
-				return;
 			}
-			if(url.contains("/department")){
+			else if(url.contains("/department")){
 				chain.doFilter(request, response);
-				return;
 			}
 			// user----  0 < userID length < 25 
-			if(url.contains("/user")){
+			else if(url.contains("/user")){
 				String user = null;
 				if(url.contains("/users/"))
 					user = getFirstMatchSubstring(url.split("/user/")[1],"\\d{1,25}");
@@ -96,15 +95,13 @@ public class OperatorCheckFilter  implements Filter{
 				if(selfAction || user == null){
 					chain.doFilter(request, response);
 				}
-				return;
+				else checkFail(response,"Pemission: Not self action.");
 			}
-			if(url.contains("/approval/")){
+			else if(url.contains("/approval")){
 				chain.doFilter(request, response);
 			}
+			else
 			checkFail(response, "Permission deny! User permission: Manager.");
-		}
-		else if(position.equalsIgnoreCase(CommonConst.POSITION_VM)){
-			chain.doFilter(request, response);
 		}
 		else
 			checkFail(response, "Department cann't recognized.");

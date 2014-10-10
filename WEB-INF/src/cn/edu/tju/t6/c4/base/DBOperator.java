@@ -55,7 +55,8 @@ public class DBOperator {
 		}
 	}
 	private String head(String sql){
-		String str = "sql @ [" + CommonConst.getCurrentTime() +  "]>\n" + sql + "\n\n";
+		String str = "sql @ [" + CommonConst.getCurrentTime() +  "]>\n" + sql + "\nin version:"
+				+  CommonConst.versionID + "\n";
 		return str;
 	}
 	public ResultSet select(String sql){
@@ -120,7 +121,7 @@ public class DBOperator {
 	}
 
 	//same to add
-	public boolean delete(String sql) {
+	public boolean delete(String sql){
 		return add(sql);
 	}
 }

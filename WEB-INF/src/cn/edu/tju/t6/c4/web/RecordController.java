@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -23,9 +22,10 @@ import cn.edu.tju.t6.c4.base.CommonConst;
 import cn.edu.tju.t6.c4.base.Application;
 import cn.edu.tju.t6.c4.service.RecordService;
 
-@Controller
+
 @SessionAttributes("user")
 @RequestMapping(value="/record")
+@Controller
 public class RecordController{
 	
 	@Autowired
@@ -72,27 +72,32 @@ public class RecordController{
 
 	@RequestMapping(method=RequestMethod.DELETE, value="/{recordID}")
 	@ResponseStatus(HttpStatus.OK)
-	public void delete(@PathVariable String recordID) throws Exception{
-		recordService.delete(Integer.parseInt(recordID));
+	public void delete(@PathVariable String recordID,
+			@ModelAttribute("user") long id) throws Exception{
+		recordService.delete(Integer.parseInt(recordID),id);
 	}
 
-	@RequestMapping(method=RequestMethod.POST)
+	
+	@RequestMapping(method=RequestMethod.POST, value="/{applyID}")
 	@ResponseStatus(HttpStatus.OK)
-	public void post(@RequestBody String body,
-					@ModelAttribute("user") long id ) throws Exception{
+	public void update(@RequestBody String body,
+					@PathVariable String applyID) {
 		Application record = (new Gson()).fromJson(body, Application.class);
-		record.setApplicant_id(id);
-		record.setStatus(CommonConst.STATE_WAITMANAGER);
-		
+		if(record.getApplicant_id()!=Long.parseLong(applyID))
+			System.out.println("Update Exception: update record permission deny!");
+		recordService.update(record);
+	}
+	
+	
+	@RequestMapping(method=RequestMethod.POST, value="")
+	@ResponseStatus(HttpStatus.OK)
+	public void post(@RequestBody String body,@ModelAttribute("user") long id){
+		Application record = (new Gson()).fromJson(body, Application.class);
+		if(record.getApplicant_id()!=id)
+			System.out.println("Update Exception: add record permission deny!");
 		recordService.add(record, id);
 	}
 
-	@RequestMapping(method=RequestMethod.POST, value="/{ID}")
-	@ResponseStatus(HttpStatus.OK)
-	public void update(@RequestBody String body,
-					@PathVariable String ID) throws Exception{
-		Application record = (new Gson()).fromJson(body, Application.class);
-		recordService.update(record);
-	}
+	
 
 }

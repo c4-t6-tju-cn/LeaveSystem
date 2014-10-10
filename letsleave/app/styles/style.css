@@ -1,0 +1,222 @@
+.head{
+	style="float:top";
+	height: 100px;
+	weight: 500px;
+	padding-top: 30px;
+	padding-left:10%;
+}
+strong{
+	font-family:verdana,SimHei ;
+}
+.load{
+	font:1000px;
+	position:relative;
+	
+}
+h1{
+	color:white;
+	font-size:70px;
+	margin:20px;
+}
+strong{
+font-size:40px;
+
+}
+.container-fluid{
+	margin-top:10px;
+	height:700px;
+	background-color:white;
+}
+.span2{
+	max-width:170px;
+	min-width:170px;
+	background-color:#444444;
+	position:absolute;
+	left:-30px;
+	height:700px;
+	
+
+
+}
+.span10{
+	position:absolute;
+	left:170px;
+	margin-top:25px;
+	margin-left: 25px;
+	
+}
+.tag1{
+	font-size:20px;
+	color:#ffffff;
+	//margin-top:10px;
+	padding-top:30px;
+	
+	margin-left:20px;
+	text-align:center;	
+}
+.board-tag{
+	width:170px;
+	height:80px;
+	background-color:#272822;
+}
+.tag1:visited{
+	text-decoration:none;
+}
+
+a{
+	color:#888888;
+	text-decoration:none;
+}
+a:hover{
+	color:#f0f0f0;
+	text-decoration:none;
+}
+.fuck
+{
+position:relative;
+animation:myfirst 5s linear 2s infinite alternate;
+animation-delay:10s;
+/* Firefox: */
+-moz-animation:myfirst 5s linear 2s infinite alternate;
+/* Safari and Chrome: */
+-webkit-animation:myfirst 1.2s linear 0.5s infinite;
+-webkit-animation-delay:0s;
+-webkit-animation-duration:1.6s;
+
+/* Opera: */
+-o-animation:myfirst 5s linear 2s infinite alternate;
+}
+.fuck1
+{
+position:relative;
+animation:myfirst 5s linear 2s infinite alternate;
+animation-delay:10s;
+/* Firefox: */
+-moz-animation:myfirst 5s linear 2s infinite alternate;
+/* Safari and Chrome: */
+-webkit-animation:myfirst 1.2s linear 0.5s infinite;
+-webkit-animation-delay:-3.5s;
+-webkit-animation-duration:1.2s;
+/* Opera: */
+-o-animation:myfirst 5s linear 2s infinite alternate;
+}
+.fuck2
+{
+position:relative;
+animation:myfirst 5s linear 2s infinite alternate;
+animation-delay:10s;
+/* Firefox: */
+-moz-animation:myfirst 5s linear 2s infinite alternate;
+/* Safari and Chrome: */
+-webkit-animation:myfirst 1.2s linear 0.5s infinite;
+-webkit-animation-delay:-3s;
+-webkit-animation-duration:1.2s;
+/* Opera: */
+-o-animation:myfirst 5s linear 2s infinite alternate;
+}
+.fuck3
+{
+position:relative;
+animation:myfirst 5s linear 2s infinite alternate;
+animation-delay:10s;
+/* Firefox: */
+-moz-animation:myfirst 5s linear 2s infinite alternate;
+/* Safari and Chrome: */
+-webkit-animation:myfirst 1.2s linear 0.5s infinite;
+-webkit-animation-delay:-2.5s;
+-webkit-animation-duration:1.2s;
+/* Opera: */
+-o-animation:myfirst 5s linear 2s infinite alternate;
+}
+.fuck4
+{
+position:relative;
+animation:myfirst 5s linear 2s infinite alternate;
+animation-delay:10s;
+/* Firefox: */
+-moz-animation:myfirst 5s linear 2s infinite alternate;
+/* Safari and Chrome: */
+-webkit-animation:myfirst 1.2s linear 0.5s infinite;
+-webkit-animation-delay:-2s;
+-webkit-animation-duration:1.2s;
+/* Opera: */
+-o-animation:myfirst 5s linear 2s infinite alternate;
+}
+.fuck5
+{
+position:relative;
+animation:myfirst 5s linear 2s infinite alternate;
+animation-delay:10s;
+/* Firefox: */
+-moz-animation:myfirst 5s linear 2s infinite alternate;
+/* Safari and Chrome: */
+-webkit-animation:myfirst 1.2s linear 0.5s infinite;
+-webkit-animation-delay:-1.5s;
+-webkit-animation-duration:1.2s;
+/* Opera: */
+-o-animation:myfirst 5s linear 2s infinite alternate;
+}
+.fuck6
+{
+position:relative;
+animation:myfirst 5s linear 2s infinite alternate;
+animation-delay:10s;
+/* Firefox: */
+-moz-animation:myfirst 5s linear 2s infinite alternate;
+/* Safari and Chrome: */
+-webkit-animation:myfirst 1.2s linear 0.5s infinite;
+-webkit-animation-delay:-1s;
+-webkit-animation-duration:1.2s;
+/* Opera: */
+-o-animation:myfirst 5s linear 2s infinite alternate;
+}
+.fuck7
+{
+position:relative;
+animation:myfirst 5s linear 2s infinite alternate;
+animation-delay:10s;
+/* Firefox: */
+-moz-animation:myfirst 5s linear 2s infinite alternate;
+/* Safari and Chrome: */
+-webkit-animation:myfirst 1.2s linear 0.5s infinite;
+-webkit-animation-delay:-0.5s;
+-webkit-animation-duration:1.2s;
+/* Opera: */
+-o-animation:myfirst 5s linear 2s infinite alternate;
+}
+
+@keyframes myfirst
+{
+0%   {color:red; left:0px; top:0px;}
+25%  {color:yellow; left:30px; top:0px;}
+30%  {color:blue; left:30px; top:18px;}
+75%  {color:green; left:0px; top:18px;}
+100% {color:red; left:0px; top:0px;}
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+0%   {color:red; left:0px; top:0px;}
+25%  {color:yellow; left:30px; top:0px;}
+30%  {color:blue; left:30px; top:18px;}
+75%  {color:green; left:0px; top:18px;}
+100% {color:red; left:0px; top:0px;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+0%   {color:red; left:0px; top:0px;}
+25%  {color:yellow; left:30px; top:0px;}
+30%  {color:blue; left:30px; top:18px;}
+75%  {color:green; left:0px; top:18px;}
+100% {color:red; left:0px; top:0px;}
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+0%   {color:red; left:0px; top:0px;}
+25%  {color:yellow; left:30px; top:0px;}
+30%  {color:blue; left:30px; top:18px;}
+75%  {color:green; left:0px; top:18px;}
+100% {color:red; left:0px; top:0px;}
+}

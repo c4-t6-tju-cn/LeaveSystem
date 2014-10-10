@@ -10,16 +10,12 @@ import org.springframework.stereotype.Service;
 
 
 
-
-
-
 import cn.edu.tju.t6.c4.base.Approval;
 import cn.edu.tju.t6.c4.base.CommonConst;
 import cn.edu.tju.t6.c4.base.Application;
 import cn.edu.tju.t6.c4.base.User;
 import cn.edu.tju.t6.c4.dao.ApplicationDao;
 import cn.edu.tju.t6.c4.dao.ApprovalDao;
-import cn.edu.tju.t6.c4.dao.DepartmentDao;
 import cn.edu.tju.t6.c4.dao.UserDao;
 
 @Service
@@ -30,8 +26,7 @@ public class RecordServiceImpl implements RecordService{
 	UserDao userDao;
 	@Autowired
 	ApprovalDao approvalDao;
-	@Autowired
-	DepartmentDao departmentDao;
+	
 	
 	@Override
 	public List<Application> get(long applyID){
@@ -46,46 +41,50 @@ public class RecordServiceImpl implements RecordService{
 	}
 
 	@Override
-	public List<Application> getByState(String state) 
-			throws SQLException {
+	public List<Application> getByState(String state){
 		return applicationDao.getRecordByStatus(state);
 	}
 
 	@Override
-	public List<Application> getByState(long applyID, String state) 
-			throws SQLException {
+	public List<Application> getByState(long applyID, String state){
 		return applicationDao.getRecordByApplyIDAndState(applyID, state);
 	}
 
 	@Override
-	public boolean delete(int recordID) {
-		if(!applicationDao.checkExist(recordID))
-			System.out.println("SQLException: no record which id ="+recordID);
-		return applicationDao.deleteRecordByID(recordID);
+	public boolean delete(int recordID, long applicantid) {
+		try {
+			if(!applicationDao.checkExist(recordID))
+				System.out.println("SQLException: no record which id ="+recordID);
+		
+			return applicationDao.deleteRecordByID(recordID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
-	public boolean update(Application record) 
-			throws SQLException {
+	public boolean update(Application record){
 		if(record.getLeave_length() <= 0)
-			throw new SQLException("SQLException: leaveDays can't be 0 or empty!");
+			System.out.println("SQLException: leaveDays can't be 0 or empty!");
 		if(!applicationDao.checkExist(record.getApplication_id()))
-			throw new SQLException("SQLException: no record which id ="+record.getApplication_id());
+			System.out.println("SQLException: no record which id ="+record.getApplication_id());
 		return applicationDao.updateRecord(record);
 	}
 
 	@Override
 	public boolean add(Application record, long applicant_id) 
 			{
-		if(record.getLeave_length() == 0){
-			System.out.println("SQLException: leaveDays can't be 0 or empty!");
+		if(record.getLeave_length() == 0 || !userDao.checkExist(applicant_id)){
+			System.out.println("SQLException: leaveDays can't be 0 or empty! or user not found.");
 			return false;
 		}
 		//get history leave record after this year
 		//System.out.println(record.getLeave_type());
 		if(record.getLeave_type().equals("annual")){
 			Calendar cal = Calendar.getInstance();
-			List<Application> list = getAfter(record.getApplicant_id(),cal.YEAR);
+			List<Application> list = getAfter(applicant_id,cal.YEAR);
 			
 			//get total left days
 			int totalLeftDays = 0;
@@ -93,10 +92,8 @@ public class RecordServiceImpl implements RecordService{
 				totalLeftDays+=list.get(i).getLeave_length();
 			
 			//get max leave days
-			int totalLeaveDays = userDao.get(record.getApplicant_id()).getTotal_annual_leave();
+			int totalLeaveDays = userDao.get(applicant_id).getTotal_annual_leave();
 			int restLeaveDays = totalLeaveDays - totalLeftDays;
-			
-			
 			//compare and get response
 			if(record.getLeave_length() > restLeaveDays){
 				System.out.println("Error when apply: rest leave day("+restLeaveDays+" day) not enough : \n" +
@@ -111,14 +108,12 @@ public class RecordServiceImpl implements RecordService{
 		return applicationDao.addRecord(record);
 	}
 	@Override
-	public Application getById(long applicationID) throws SQLException{
+	public Application getById(long applicationID){
 		Application appl = applicationDao.getRecordByID(applicationID);
+		appl.setApplicant(userDao.get(appl.getApplicant_id()));
 		List<Approval> apprs = approvalDao.getApprovalsByApplication(applicationID);
-		User applicant = userDao.get(appl.getApplicant_id());
-		appl.setApplicant(applicant);
 		if(apprs != null);
 			appl.setApprovals(apprs);
-		
 		return appl;
 	}
 

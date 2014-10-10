@@ -213,7 +213,6 @@ app.config(['$routeProvider', function($routeProvider) {
 				templateUrl:'views/newUser.html'
 			}
 		)
-		
 		.when(
 			'/404',
 			{
@@ -245,8 +244,6 @@ app.controller(
 		function($scope,$location,currentUser,$route){
 			if(currentUser.id == null){
 				alert("login failed");
-				$scope.currentUser = currentUserG;
-				$location.path('/login');
 			}
 			else{
 				currentUserG=currentUser;
@@ -387,8 +384,8 @@ app.controller(
 			$scope.approval = approval;
 			$scope.approval.application_id = application.application_id;
 			$scope.save = function() {
-				application.$save(
-					function(application) {
+				approval.$save(
+					function(approval) {
 						$location.path('/view/record/' + application.application_id);
 					}
 				);
@@ -455,6 +452,11 @@ app.controller('UserNewCtrl',
 				);
 				
 			};
+
+			$scope.remove = function() {
+				$scope.user.$delete(function(){});
+				$location.path('/users');
+			};
 		}
 	]
 );
@@ -481,3 +483,26 @@ function alertErr(res){
 	}
 	return;
 }
+app.controller('NewCtrl', ['$scope', '$location', 'Recipe',
+    function($scope, $location, Recipe) {
+  $scope.recipe = new Recipe({
+    ingredients: [ {} ]
+  });
+
+  $scope.save = function() {
+    $scope.recipe.$save(function(recipe) {
+    $location.path('/');
+    });
+  };
+}]);
+/*
+app.controller('IngredientsCtrl', ['$scope',
+    function($scope) {
+  $scope.addIngredient = function() {
+    var ingredients = $scope.recipe.ingredients;
+    ingredients[ingredients.length] = {};
+  };
+  $scope.removeIngredient = function(index) {
+    $scope.recipe.ingredients.splice(index, 1);
+  };
+}]);*/

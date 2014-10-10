@@ -48,9 +48,8 @@ public class UserDao {
 		List<User> list = selectBySQL(String.format(SELETC_USER_BY_ID, id));
 		if(list.size() == 0)	return null;
 		else if(list.size() == 1)	return list.get(0);
-		else{
+		else
 			System.out.println("multi user by "+id);
-		}
 		return null;
 	}
 	

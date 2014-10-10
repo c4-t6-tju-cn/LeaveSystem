@@ -9,31 +9,46 @@
   <script src="scripts/controllers/controllers.js"></script>
 
   <link href="styles/bootstrap.css" rel="stylesheet">
+  <link href="styles/style.css" rel="stylesheet" type="text/css">
+  
 </head>
-<body>
-  <div style="float:top">
+<body background="image/intro.jpg">
+  <div class="head">
   <header>
     <h1>Leave System</h1>
   </header>
   </div>
+
   
 
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span2">
         <!--Sidebar-->
-		<div><a href='#/login'>Login</a></div>
-        <div id="focus"><a href="#/new/record">Apply for Leaving</a></div>
-		<div><a href="#/new/user">New user</a></div>
-        <div><a href="#/records">Record List</a></div>
-		<div><a href="#/users">User List</a></div>
+		<div class="board-tag"><div class="tag1"><a href="#/login">Login</a></div></div>
+        <div class="board-tag"><div id="focus" class="tag1"><a href="#/new/record">Apply</a></div></div>
+		<div class="board-tag"><div class="tag1"><a href="#/new/user">New user</a></div></div>
+        <div class="board-tag"><div class="tag1"><a href="#/records">Record List</a></div></div>
+		<div class="board-tag"><div class="tag1"><a href="#/users">User List</a></div></div>
+		
       </div>
       <div class="span10">
-        <div ng-view></div>
+        <div ng-view ></div>
+		
+		<div butterbar class ="load">
+		<strong class="fuck1" class="loading">l</strong>
+		<strong class="fuck2" class="loading">o</strong>
+		<strong class="fuck3" class="loading">a</strong>
+		<strong class="fuck4" class="loading">d</strong>
+		<strong class="fuck5" class="loading">i</strong>
+		<strong class="fuck6" class="loading">n</strong>
+		<strong class="fuck" class="loading">g</strong>
+		
       </div>
 	  
     </div>
+	
   </div>
-<div butterbar>loading...</div>
+
 </body>
 </html>

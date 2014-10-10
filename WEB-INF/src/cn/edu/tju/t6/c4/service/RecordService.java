@@ -10,21 +10,21 @@ import cn.edu.tju.t6.c4.base.Approval;
 
 public interface RecordService {
 	
-	public Application getById(long applicationID) throws SQLException;
+	public Application getById(long applicationID);
 	
-	public List<Application> get(long applyID) throws SQLException;
+	public List<Application> get(long applyID);
 	
-	public List<Application> getAfter(long applyID, int year) throws SQLException;
+	public List<Application> getAfter(long applyID, int year);
 	
-	public List<Application> getByState(String state) throws SQLException;
+	public List<Application> getByState(String state);
 	
-	public List<Application> getByState(long applyID, String state) throws SQLException;
+	public List<Application> getByState(long applyID, String state);
 	
-	public boolean delete(int recordID) throws SQLException;
+	public boolean delete(int recordID, long applicantid);
 	
-	public boolean add(Application record, long applicant_id) throws SQLException;
+	public boolean add(Application record, long applicant_id);
 	
-	public boolean update(Application record) throws SQLException;
+	public boolean update(Application record);
 	
 	public boolean approve(Approval appr, long auditor);
 }
