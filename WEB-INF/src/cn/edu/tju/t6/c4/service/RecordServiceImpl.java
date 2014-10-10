@@ -13,7 +13,14 @@ import org.springframework.stereotype.Service;
 import cn.edu.tju.t6.c4.base.Approval;
 import cn.edu.tju.t6.c4.base.CommonConst;
 import cn.edu.tju.t6.c4.base.Application;
+<<<<<<< HEAD
 import cn.edu.tju.t6.c4.base.User;
+=======
+<<<<<<< HEAD
+import cn.edu.tju.t6.c4.base.User;
+=======
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 import cn.edu.tju.t6.c4.dao.ApplicationDao;
 import cn.edu.tju.t6.c4.dao.ApprovalDao;
 import cn.edu.tju.t6.c4.dao.UserDao;
@@ -29,6 +36,10 @@ public class RecordServiceImpl implements RecordService{
 	
 	
 	@Override
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 	public List<Application> get(long applyID){
 		return applicationDao.getRecordByApplyID(applyID);
 	}
@@ -38,6 +49,31 @@ public class RecordServiceImpl implements RecordService{
 			{
 		
 		return applicationDao.getRecordForAnnual(applyID, year);
+<<<<<<< HEAD
+=======
+=======
+	public List<Application> get(long applyID) 
+			throws SQLException {
+		return recordDao.getRecordByApplyID(applyID);
+	}
+
+	@Override
+	public List<Application> getAfter(long applyID, Calendar time) 
+			throws SQLException {
+		List<Application> list = get(applyID);
+		for(int i = 0 ; i < list.size() ; i++){
+			Application record = list.get(i);
+			if(record.getApply_date()==null) break;
+			String times[] = record.getApply_date().split(CommonConst.TIME_SPLIT);
+			Calendar cal = Calendar.getInstance();
+			cal.set(Integer.parseInt(times[0]), 
+					 Integer.parseInt(times[1]), 
+					 Integer.parseInt(times[2]));
+			if(cal.compareTo(time) < 0) list.remove(record);
+		}
+		return list;
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 	}
 
 	@Override
@@ -51,6 +87,7 @@ public class RecordServiceImpl implements RecordService{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public boolean delete(int recordID, long applicantid) {
 		try {
 			if(!applicationDao.checkExist(recordID))
@@ -62,6 +99,23 @@ public class RecordServiceImpl implements RecordService{
 			e.printStackTrace();
 		}
 		return false;
+=======
+<<<<<<< HEAD
+	public boolean delete(int recordID) {
+		if(!applicationDao.checkExist(recordID))
+			System.out.println("SQLException: no record which id ="+recordID);
+		return applicationDao.deleteRecordByID(recordID);
+=======
+	public boolean delete(int recordID,long applyID) 
+			throws SQLException {
+		if(!recordDao.checkExist(recordID))
+			throw new SQLException("SQLException: no record which id ="+recordID);
+		Application record = recordDao.getRecordByID(recordID);
+		if(record.getApplicant_id()!=applyID)
+			throw new SQLException("SQLExcetion: this record is not belong to "+applyID);
+		return recordDao.deleteRecordByID(recordID);
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 	}
 
 	@Override
@@ -74,6 +128,10 @@ public class RecordServiceImpl implements RecordService{
 	}
 
 	@Override
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 	public boolean add(Application record, long applicant_id) 
 			{
 		if(record.getLeave_length() == 0 || !userDao.checkExist(applicant_id)){
@@ -106,6 +164,35 @@ public class RecordServiceImpl implements RecordService{
 		record.setStatus(CommonConst.STATE_WAITMANAGER);
 		record.setApply_date(CommonConst.getCurrentDate());
 		return applicationDao.addRecord(record);
+<<<<<<< HEAD
+=======
+=======
+	public boolean add(Application record) 
+			throws SQLException {
+		if(record.getLeave_length() == 0)
+			throw new SQLException("SQLException: leaveDays can't be 0 or empty!");
+		//get history leave record after this year
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 1, 1);
+		List<Application> list = getAfter(record.getApplicant_id(),cal);
+		
+		//get total left days
+		int totalLeftDays = 0;
+		for(int i = 0 ; i < list.size() ; i++)
+			totalLeftDays+=list.get(i).getLeave_length();
+		
+		//get max leave days
+		int totalLeaveDays = userDao.get(record.getApplicant_id()).getTotal_annual_leave();
+		int restLeaveDays = totalLeaveDays - totalLeftDays;
+		
+		//compare and get response
+		if(record.getLeave_length() > restLeaveDays)
+			throw new SQLException("rest leave day("+restLeaveDays+" day) not enough : \n" +
+					"total of left days and wait apply leave days is "+totalLeftDays + "\n" +
+					"total leave days is "+totalLeaveDays);
+		return recordDao.addRecord(record);
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 	}
 	@Override
 	public Application getById(long applicationID){

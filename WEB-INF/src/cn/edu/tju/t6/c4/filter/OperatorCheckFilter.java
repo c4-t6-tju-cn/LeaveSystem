@@ -71,6 +71,10 @@ public class OperatorCheckFilter  implements Filter{
 				|| position.equalsIgnoreCase(CommonConst.POSITION_GM)
 				|| position.equalsIgnoreCase(CommonConst.POSITION_VM))
 			chain.doFilter(request, response);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 		else if((position.equalsIgnoreCase(CommonConst.POSITION_DM))){
 			if(url.contains("/record")){
 				if(method.equalsIgnoreCase("get")){
@@ -103,6 +107,14 @@ public class OperatorCheckFilter  implements Filter{
 			else
 			checkFail(response, "Permission deny! User permission: Manager.");
 		}
+<<<<<<< HEAD
+=======
+		else if(position.equalsIgnoreCase(CommonConst.POSITION_VM)){
+			chain.doFilter(request, response);
+		}
+=======
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 		else
 			checkFail(response, "Department cann't recognized.");
 	}

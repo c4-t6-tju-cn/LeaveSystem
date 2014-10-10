@@ -123,6 +123,10 @@ app.config(['$routeProvider', function($routeProvider) {
 			}
 		)
 		.when(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 			'/view/record/:application_id',
 			{
 				controller:'RecordViewCtrl',
@@ -175,6 +179,11 @@ app.config(['$routeProvider', function($routeProvider) {
 			}
 		)
 		.when(
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 			'/view/user/:UserId', 
 			{
 				controller: 'UserViewCtrl',
@@ -302,6 +311,10 @@ app.controller(
 		}
 	]
 );
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 
 app.controller(
 	'RecordViewCtrl',
@@ -329,6 +342,11 @@ app.controller(
 	]
 );
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 app.controller(
 	'UserViewCtrl', 
 	[
@@ -347,6 +365,10 @@ app.controller(
 		}
 	]
 );
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 app.controller(
 	'RecordEditCtrl',
 	[
@@ -393,6 +415,12 @@ app.controller(
 		}
 	]
 )
+<<<<<<< HEAD
+=======
+=======
+
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 app.controller('UserEditCtrl',
 	[
 		'$scope', '$location', 'user','departments',
@@ -417,6 +445,10 @@ app.controller('UserEditCtrl',
 		}
 	]
 );
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 app.controller('RecordNewCtrl',
 	[
 		'$scope', '$location','Application',
@@ -435,6 +467,12 @@ app.controller('RecordNewCtrl',
 		}
 	]
 );
+<<<<<<< HEAD
+=======
+=======
+
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 app.controller('UserNewCtrl',
 	[
 		'$scope', '$location','User', 'departments',
@@ -461,6 +499,10 @@ app.controller('UserNewCtrl',
 	]
 );
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 function alertErr(res, $location){
 	try{
 		if(res[0].response!=null){
@@ -483,6 +525,10 @@ function alertErr(res){
 	}
 	return;
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
 app.controller('NewCtrl', ['$scope', '$location', 'Recipe',
     function($scope, $location, Recipe) {
   $scope.recipe = new Recipe({
@@ -506,3 +552,7 @@ app.controller('IngredientsCtrl', ['$scope',
     $scope.recipe.ingredients.splice(index, 1);
   };
 }]);*/
+<<<<<<< HEAD
+=======
+>>>>>>> origin/master
+>>>>>>> 50791dc9f45c63e24a8135a02b49273af844b88b
