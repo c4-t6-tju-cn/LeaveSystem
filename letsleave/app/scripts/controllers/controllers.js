@@ -252,7 +252,7 @@ app.controller(
 				SetCookie("u_department",currentUser.department_id);
 				SetCookie("u_position", currentUser.position);
 				$scope.currentUser = currentUser;
-				alert('User log in successful.' + '\nHello ' + currentUserG.name)
+				alert('User log in successful.' + '\nHello ' + currentUserG.name);
 				$route.reload();
 				$location.path('/records/applicant/' + currentUserG.id + '/status/all/time/all');
 			}

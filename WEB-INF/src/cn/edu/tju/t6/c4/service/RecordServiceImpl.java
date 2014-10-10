@@ -35,18 +35,19 @@ public class RecordServiceImpl implements RecordService{
 
 	@Override
 	public List<Application> getAfter(long applyID, int year) 
-			{
-		
+	{
 		return applicationDao.getRecordForAnnual(applyID, year);
 	}
 
 	@Override
-	public List<Application> getByState(String state){
+	public List<Application> getByState(String state)
+	{
 		return applicationDao.getRecordByStatus(state);
 	}
 
 	@Override
-	public List<Application> getByState(long applyID, String state){
+	public List<Application> getByState(long applyID, String state)
+	{
 		return applicationDao.getRecordByApplyIDAndState(applyID, state);
 	}
 
