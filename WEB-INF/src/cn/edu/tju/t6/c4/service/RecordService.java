@@ -26,5 +26,5 @@ public interface RecordService {
 	
 	public boolean update(Application record);
 	
-	public boolean approve(Approval appr, long auditor);
+	public String approve(Approval appr, long auditor);
 }

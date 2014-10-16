@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -25,10 +26,12 @@ public class ApprovalController {
 	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void add(@RequestBody String body,
+	public @ResponseBody String add(@RequestBody String body,
 			@ModelAttribute("user") long id ){
 		Approval appr = (new Gson()).fromJson(body, Approval.class);
 		
-		recordService.approve(appr,id);
+		return recordService.approve(appr,id);
+		
+		
 	}
 }
