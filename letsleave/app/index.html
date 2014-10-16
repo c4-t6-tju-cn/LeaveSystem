@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html   lang="en" ng-app="leavesystem">
 <head>
-  <title>Leave system - let's leave</title>
+改变当前点击图片  <title>Leave system - let's leave</title>
   <script src="scripts/vendor/angular.min.js"></script>
   <script src="scripts/vendor/angular-resource.min.js"></script>
   <script src="scripts/directives/directives.js"></script>
@@ -10,7 +10,20 @@
 
   <link href="styles/bootstrap.css" rel="stylesheet">
   <link href="styles/style.css" rel="stylesheet" type="text/css">
-  
+  <script >
+	/*function cli(e){
+	e.style.background-color=#000;
+	
+	alert(e.innerHTML);
+	}*/
+	function cli(){
+	bo = document.getElementById('aaa');
+	bo.style.color ="#ffffff";
+	
+	alert("nice")
+	}
+	
+  </script>
 </head>
 <body background="image/intro.jpg">
   <div class="head">
@@ -25,11 +38,11 @@
     <div class="row-fluid">
       <div class="span2">
         <!--Sidebar-->
-		<div class="board-tag"><div class="tag1"><a href="#/login">Login</a></div></div>
-        <div class="board-tag"><div id="focus" class="tag1"><a href="#/new/record">Apply</a></div></div>
-		<div class="board-tag"><div class="tag1"><a href="#/new/user">New user</a></div></div>
-        <div class="board-tag"><div class="tag1"><a href="#/records">Record List</a></div></div>
-		<div class="board-tag"><div class="tag1"><a href="#/users">User List</a></div></div>
+		<div class="board-tag"><div class="tag1"><a href="#/login" onclick ="cli()" id="aaa">Login</a></div></div>
+        <div class="board-tag"><div id="focus" class="tag1"><a href="#/new/record"  onclick ="cli()">Apply</a></div></div>
+		<div class="board-tag"><div class="tag1"><a href="#/new/user"  onclick ="cli()">New user</a></div></div>
+        <div class="board-tag"><div class="tag1"><a href="#/records"  onclick ="cli()">Record List</a></div></div>
+		<div class="board-tag"><div class="tag1"><a href="#/users"  onclick ="cli()">User List</a></div></div>
 		
       </div>
       <div class="span10">
